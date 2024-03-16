@@ -1,8 +1,6 @@
 const Admin=require('../models/adminModel')
 const path=require('path')
 const fs=require('fs')
-
-
 module.exports.login=async(req,res)=>{
     return res.render('login');
 }
