@@ -13,5 +13,7 @@ routs.get('/deleteRecord/:id',adminController.deleteRecord)
 routs.get('/updateRecord/:id',adminController.updateRecord)
 routs.post('/edit_admin/:id',Admin.uploadImage,adminController.edit_admin)
 
+// doctor
+routs.use('/doctor_details',require('./doctor_details'))
 
 module.exports=routs;

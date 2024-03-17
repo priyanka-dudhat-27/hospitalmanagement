@@ -1,0 +1,57 @@
+<%-include ('header_reception')%>
+
+<!-- MAIN CONTENT-->
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="table-responsive table--no-card m-b-30">
+            <table class="table table-borderless table-striped table-earning text-left">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Name</th>
+                  <th>DOB</th>
+                  <th>Gender</th>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Message</th>
+                  <th>Action</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <%var no=1%>
+                <%for(let ad of appointmentData){%>
+                    <tr>
+                        <td><%=no++%></td>
+                        <td><%=ad.name%></td>
+                        <td><%=ad.dob%></td>
+                        <td><%=ad.gender%></td>
+                        <td><%=ad.service%></td>
+                        <td><%=ad.appointmentDate%></td>
+                        <td><%=ad.appointmentTime%></td>
+                        <td><%=ad.phone%></td>
+                        <td><%=ad.email%></td>
+                        <td><%=ad.message%></td>
+
+                        <td>
+                            <a href="/reception/deleteRecord/<%=ad.id%>" style="color: red;"><i class="fa fa-trash"></i></a>  ||
+                            <a href="/reception/updateRecord/<%=ad.id%>" style="color:blue;"><i class="fa fa-edit"></i></a>  
+                        </td>   
+                    </tr>
+                <%}%>   
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <%-include ('footer')%>
+    </div>
+  </div>
+</div>

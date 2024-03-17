@@ -1,0 +1,231 @@
+<%-include ('header_reception')%>
+
+<!-- MAIN CONTENT-->
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-header"><strong>Book Appointment</strong></div>
+            <div class="card-body card-block">
+
+                <% var fullName=appointmentData.name.split(' ')%>
+
+                <form
+                action="/reception/edit_appointment/<%=appointmentData.id%>"
+                method="post"
+                class="form-horizontal"
+              >
+                <div class="row form-group">
+                  <div class="col col-md-3">
+                    <label for="text-input" class="form-control-label"
+                      >First Name</label
+                    >
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <input
+                      type="text"
+                      name="fname"
+                      value="<%=fullName[0]%>"
+                      id="text-input"
+                      placeholder="Enter First Name"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <div class="col col-md-3">
+                    <label for="text-input" class="form-control-label"
+                      >Last Name</label
+                    >
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <input
+                      type="text"
+                      name="lname"
+                      value="<%=fullName[1]%>"
+                      id="text-input"
+                      placeholder="Enter Last Name"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">
+                      <label for="email-input" class="form-control-label"
+                        >Date of Birth</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-9">
+                      <input
+                        type="date"
+                        name="dob"
+                        value="<%=appointmentData.dob%>"
+                        id="email-input"
+                        placeholder="Date of Birth"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col col-md-3">
+                      <label class="form-control-label">Gender</label>
+                    </div>
+                    <div class="col col-md-9">
+                      <div class="form-check">
+                        <div class="radio">
+                          <label for="radio1" class="form-check-label">
+                            <input
+                              type="radio"
+                              id="radio1"
+                              name="gender"
+                              value="male"
+                              class="form-check-input"
+                              <% if(appointmentData.gender=='male'){%><%='checked'%><%}%>
+                            />Male
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label for="radio2" class="form-check-label">
+                            <input
+                              type="radio"
+                              id="radio2"
+                              name="gender"
+                              value="female"
+                              class="form-check-input"
+                              <% if(appointmentData.gender=='female'){%><%='checked'%><%}%>
+                            />Female
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label for="radio3" class="form-check-label">
+                            <input
+                              type="radio"
+                              id="radio3"
+                              name="gender"
+                              value="others"
+                              class="form-check-input"
+                              <% if(appointmentData.gender=='others'){%><%='checked'%><%}%>
+                            />Others
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row form-group">
+                    <div class="col col-md-3">
+                      <label for="select" class="form-control-label">Service</label>
+                    </div>
+                    <%var service=['Dental Checkup','Full Body Checkup','ENT Checkup','Eye Checkup','Heart Checkup']%>
+                    <div class="col-12 col-md-9">
+                      <select name="service" id="select" class="form-control">
+                        <option value="">--select-service-</option>
+                        <%service.map((v,i)=>{%>
+                            <option value="<%=v%>" <% if(appointmentData.service==v){%><%='selected'%><%}%>><%=v%></option>
+                        <%})%>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col col-md-3">
+                      <label for="email-input" class="form-control-label"
+                        >Appointment Date</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-9">
+                      <input
+                        type="date"
+                        name="appointmentDate"
+                        value="<%=appointmentData.appointmentDate%>"
+                        placeholder="Date of Birth"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col col-md-3">
+                      <label for="email-input" class="form-control-label"
+                        >Appointment Time</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-9">
+                      <input
+                        type="time"
+                        name="appointmentTime"
+                        value="<%=appointmentData.appointmentTime%>"
+                        placeholder="Date of Birth"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                <div class="row form-group">
+                  <div class="col col-md-3">
+                    <label for="email-input" class="form-control-label"
+                      >Email</label
+                    >
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <input
+                      type="email"
+                      name="email"
+                      value="<%=appointmentData.email%>"
+                      id="email-input"
+                      placeholder="Please enter your email"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+               
+                <div class="row form-group">
+                    <div class="col col-md-3">
+                      <label for="password-input" class="form-control-label"
+                        >Phone No</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-9">
+                      <input
+                        type="number"
+                        name="phone"
+                        value="<%=appointmentData.phone%>"
+                        id="password-input"
+                        placeholder="Enter contact Number"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                <div class="row form-group">
+                  <div class="col col-md-3">
+                    <label for="textarea-input" class="form-control-label"
+                      >Message</label
+                    >
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <textarea
+                      name="message"
+                      id="textarea-input"
+                      placeholder="Message"
+                      class="form-control"
+                    ><%=appointmentData.message%></textarea>
+                  </div>
+                </div>
+               
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="fa fa-dot-circle-o"></i> Submit
+                  </button>
+                  <a href="/reception/book_appointment" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> Reset
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%-include ('footer')%>
+    </div>
+  </div>
+</div>
