@@ -1,4 +1,5 @@
 const Admin=require('../models/adminModel')
+const doctorModel=require('../models/doctor_detailsModel');
 const path=require('path')
 const fs=require('fs')
 module.exports.login=async(req,res)=>{
@@ -15,7 +16,13 @@ module.exports.signIn=async(req,res)=>{
     }
 }
 module.exports.dashboard=async(req,res)=>{
-    return res.render('dashboard');
+    let adminData=await Admin.find().countDocuments();
+    let doctorData=await doctorModel.find().countDocuments();
+
+    return res.render('dashboard',{
+        adminData:adminData,
+        doctorData:doctorData,
+    });
 }
 module.exports.add_admin=async(req,res)=>{
     return res.render('add_admin');
