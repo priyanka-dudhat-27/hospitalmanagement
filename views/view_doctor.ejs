@@ -1,2 +1,33 @@
 <%-include('header')%>
+             <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                           <%for(let ad of doctor_detailsData){%>
+                            <a href="/admin/doctor_details/profile/<%=ad.id%>">
+                                <div class="col-md-4">
+                                    <div class="card text-capitalize text-center">
+                                        <img class="card-img-top" src="<%=ad.image%>" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h3 class="card-title mb-3 text-center"><%=ad.name%></h3>
+                                            <h4 class="text-center"><%=ad.speciality%></h4>
+                                          
+                                            <h4>
+                                                <a href="/admin/doctor_details/deleteRecord/<%=ad.id%>"><i class="fa fa-trash text-danger"></i></a>
+                                            </h4>
+    
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                           <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTAINER-->
+
+
 <%-include('footer')%>

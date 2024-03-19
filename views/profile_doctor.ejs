@@ -1,0 +1,56 @@
+<%-include ('header')%>
+
+<!-- MAIN CONTENT-->
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="table-responsive table--no-card m-b-30">
+            <table class="table table-borderless table-striped table-earning  text-capitalize h5 ">
+              <tbody>
+                    <tr>
+                       <td colspan="2"><img src="<%=singleData.image%>" class="rounded-circle" width="400" height="400" alt=""></td> 
+                    
+                    </tr>
+                    <tr>
+                        <td style="width:20px">Name</td>
+                        <td style="width: 20px;"><%=singleData.name%></td>
+                    </tr>
+                    <tr>
+                        <td>Speciality</td>
+                        <td><%=singleData.speciality%></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><a href="https://www.gmail.com"><%=singleData.email%></a></td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td><%=singleData.phone%></td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td><%=singleData.gender%></td>
+                    </tr>
+                     <tr>
+                        <td>Date of Birth</td>
+                        <td><%=singleData.dob%></td>
+                    </tr>
+                    <tr>
+                        <td>city</td>
+                        <td><%=singleData.city%></td>
+                    </tr>
+                    <tr>
+                        <td><a href="/admin/doctor_details/updateRecord/<%=singleData.id%>" class="btn btn-success">Edit Profile</a></td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <%-include ('footer')%>
+    </div>
+  </div>
+</div>

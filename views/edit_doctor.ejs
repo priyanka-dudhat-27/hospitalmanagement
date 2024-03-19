@@ -7,10 +7,13 @@
       <div class="row">
         <div class="col-lg-6">
           <div class="card">
-            <div class="card-header"><strong>Add Admin Details</strong></div>
+            <div class="card-header"><strong>Edit Doctor Details</strong></div>
             <div class="card-body card-block">
+
+                <%var fullName=singleData.name.split(' ')%>
+
               <form
-                action="/admin/doctor_details/insert_doctor"
+                action="/admin/doctor_details/edit_doctor/<%=singleData.id%>"
                 method="post"
                 enctype="multipart/form-data"
                 class="form-horizontal"
@@ -25,6 +28,7 @@
                     <input
                       type="text"
                       name="fname"
+                      value="<%=fullName[0]%>"
                       id="text-input"
                       placeholder="Enter First Name"
                       class="form-control"
@@ -41,6 +45,7 @@
                     <input
                       type="text"
                       name="lname"
+                      value="<%=fullName[1]%>"
                       id="text-input"
                       placeholder="Enter Last Name"
                       class="form-control"
@@ -57,6 +62,7 @@
                       <input
                         type="date"
                         name="dob"
+                        value="<%=singleData.dob%>"
                         placeholder="Date of Birth"
                         class="form-control"
                       />
@@ -76,6 +82,7 @@
                               name="gender"
                               value="male"
                               class="form-check-input"
+                              <% if(singleData.gender=='male'){%><%='checked'%><%}%>
                             />Male
                           </label>
                         </div>
@@ -87,6 +94,7 @@
                               name="gender"
                               value="female"
                               class="form-check-input"
+                              <% if(singleData.gender=='female'){%><%='checked'%><%}%>
                             />Female
                           </label>
                         </div>
@@ -98,6 +106,7 @@
                               name="gender"
                               value="others"
                               class="form-check-input"
+                              <% if(singleData.gender=='others'){%><%='checked'%><%}%>
                             />Others
                           </label>
                         </div>
@@ -110,43 +119,43 @@
                         <div class="form-check">
                             <div class="checkbox">
                                 <label for="checkbox1" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox1" name="speciality" value="Dental" class="form-check-input">Dentist
+                                    <input type="checkbox" id="checkbox1" name="speciality" value="dental" class="form-check-input" <% if(singleData.speciality.includes('dental')){%><%='checked'%><%}%>>Dentist
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="checkbox2" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox2" name="speciality" value="eye-care" class="form-check-input">Eye-Care Specialist
+                                    <input type="checkbox" id="checkbox2" name="speciality" value="eye-care" class="form-check-input" <% if(singleData.speciality.includes('eye-care')){%><%='checked'%><%}%>>Eye-Care Specialist
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="kidney" class="form-check-input">Kidney Specialist
+                                    <input type="checkbox" id="checkbox3" name="speciality" value="kidney" class="form-check-input" <% if(singleData.speciality.includes('kidney')){%><%='checked'%><%}%>>Kidney Specialist
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="cardiologists" class="form-check-input">Cardiologists
+                                    <input type="checkbox" id="checkbox3" name="speciality" value="cardiologists" class="form-check-input" <% if(singleData.speciality.includes('cardiologists')){%><%='checked'%><%}%>>Cardiologists
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="md" class="form-check-input">MD
+                                    <input type="checkbox" id="checkbox3" name="speciality" value="md" class="form-check-input" <% if(singleData.speciality.includes('md')){%><%='checked'%><%}%>>MD
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="dermatologists" class="form-check-input">Dermatologists
+                                    <input type="checkbox" id="checkbox3" name="speciality" value="dermatologists" class="form-check-input" <% if(singleData.speciality.includes('dermatologists')){%><%='checked'%><%}%>>Dermatologists
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="neurologists" class="form-check-input">Neurologists
+                                    <input type="checkbox" id="checkbox3" name="speciality" value="neurologists" class="form-check-input" <% if(singleData.speciality.includes('neurologists')){%><%='checked'%><%}%>>Neurologists
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label for="checkbox3" class="form-check-label ">
                                     <input type="checkbox" id="checkbox3" name="speciality" value="general-surgeon
-                                    " class="form-check-input">General Surgeon
+                                    " class="form-check-input" <% if(singleData.speciality.includes('general-surgeon')){%><%='checked'%><%}%>>General Surgeon
                                 </label>
                             </div>
                         </div>
@@ -163,30 +172,14 @@
                     <input
                       type="email"
                       name="email"
+                      value="<%=singleData.email%>"
                       id="email-input"
                       placeholder="Please enter your email"
                       class="form-control"
                     />
                   </div>
                 </div>
-                <div class="row form-group">
-                  <div class="col col-md-3">
-                    <label for="password-input" class="form-control-label"
-                      >Password</label
-                    >
-                  </div>
-                  <div class="col-12 col-md-9">
-                    <input
-                      type="password"
-                      name="password"
-                      id="password-input"
-                      name="password-input"
-                      placeholder="Enter complex Password"
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-
+    
                 <div class="row form-group">
                     <div class="col col-md-3">
                       <label for="password-input" class="form-control-label"
@@ -197,6 +190,7 @@
                       <input
                         type="number"
                         name="phone"
+                        value="<%=singleData.phone%>"
                         id="phone-input"
                         placeholder="Enter contact Number"
                         class="form-control"
@@ -214,8 +208,7 @@
                     <select name="city" id="select" class="form-control">
                       <option value="">--select-city-</option>
                       <%city.map((v,i)=>{%>
-                      <option value="<%=v%>"><%=v%></option>
-                      <%})%>
+                        <option value="<%=v%>" <% if(singleData.city==v){%><%='selected'%><%}%>><%=v%></option>                      <%})%>
                     </select>
                   </div>
                 </div>
@@ -235,6 +228,7 @@
                       name="image"
                       class="form-control-file"
                     />
+                    <img src="<%=singleData.image%>" alt="">
                   </div>
                 </div>
 
