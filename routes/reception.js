@@ -1,6 +1,7 @@
 const express=require('express');
 const routs=express.Router();
 const receptionController=require('../controllers/receptionController')
+const receptionModel=require('../models/receptionModel')
 
 routs.get('/',receptionController.login)
 routs.get('/dashboardReception',receptionController.dashboardDoctor)
@@ -11,6 +12,16 @@ routs.get('/view_appointment',receptionController.view_appointment);
 routs.get('/deleteRecord/:id',receptionController.deleteRecord);
 routs.get('/updateRecord/:id',receptionController.updateRecord);
 routs.post('/edit_appointment/:id',receptionController.edit_appointment);
+
+// receptionist_details
+routs.get('/add_reception',receptionController.add_reception)
+routs.post('/insert_reception_details',receptionModel.uploadImage,receptionController.insert_reception_details);
+routs.get('/view_reception',receptionController.view_reception);
+routs.get('/deleteRecord/:id',receptionController.deleteRecord)
+routs.get('/updateRecord/:id',receptionController.deleteRecord)
+routs.post('/edit_reception/:id',receptionModel.uploadImage,receptionController.edit_reception);
+
+
 
 
 module.exports = routs;

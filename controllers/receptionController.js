@@ -1,10 +1,17 @@
 const appointmentModel=require('../models/appointmentModel')
-
+const receptionModel=require('../models/receptionModel')
+const path=require('path')
+const fs=require('fs')
 module.exports.login = async (req, res) => {
   return res.render("loginReception");
 };
 module.exports.dashboardDoctor = async (req, res) => {
-  return res.render("dashboardReception");
+
+    let appointmentData=await appointmentModel.find().countDocuments();
+
+    return res.render("dashboardReception",{
+        appointmentData:appointmentData,
+    });
 };
 module.exports.signIn = async (req, res) => {
   try {
@@ -84,6 +91,7 @@ module.exports.updateRecord=async(req,res)=>{
     }
 }
 
+
 module.exports.edit_appointment=async(req,res)=>{
     try{
         req.body.name=req.body.fname+' '+req.body.lname;
@@ -91,6 +99,117 @@ module.exports.edit_appointment=async(req,res)=>{
         await appointmentModel.findByIdAndUpdate(req.params.id,req.body);
         console.log('Appointment record updated successfully')            
         return res.redirect('/reception/view_appointment');
+    }
+    catch(err){
+        console.log(err)            
+        return res.redirect('back')
+    }
+}
+
+// receptionist_details
+module.exports.add_reception=async(req,res)=>{
+    return res.render('add_reception');
+}
+
+module.exports.insert_reception_details=async(req,res)=>{
+   
+    try{
+        // console.log(req.body);
+        // console.log(req.file);  
+        var img='';
+        if(req.file){
+            img=receptionModel.iPath+'/'+req.file.filename;
+        }
+        req.body.name=req.body.fname+' '+req.body.lname;
+        req.body.image=img;
+
+        let receptionData=await receptionModel.create(req.body);
+        if(receptionData){
+            console.log('record inserted successfully');
+            return res.redirect('back')
+        }else{
+            console.log('something wrong')          
+            return res.redirect('back')
+        }
+    }
+    catch(err){
+        console.log(err)            
+        return res.redirect('back')
+    }
+}
+
+
+module.exports.view_reception=async(req,res)=>{
+    try{
+        let viewData=await receptionModel.find({});
+        return res.render('view_reception',{
+            receptionData:viewData,
+        });
+    }
+    catch(err){
+        console.log(err)            
+        return res.redirect('back');
+    }
+}
+
+module.exports.deleteRecord=async(req,res)=>{
+    try{
+        let singleData=await receptionModel.findById(req.params.id);
+        if(singleData){
+            let imagePath=path.join(__dirname,'..',singleData.image)
+            await fs.unlinkSync(imagePath)
+        }else{
+            console.log('wrong')
+            return res.redirect('back')
+        }
+        let delData=await receptionModel.findByIdAndDelete(req.params.id);
+        if(delData){
+            console.log('Record deleted successfully')            
+            return res.redirect('/reception/view_reception')
+        }else{
+            console.log('something wrong')            
+        }
+    }
+    catch(err){
+        console.log(err)            
+        return res.redirect('back');
+    }
+}
+
+module.exports.updateRecord=async(req,res)=>{
+    try{
+        let singleData=await receptionModel.findById(req.params.id);
+        return res.render('edit_reception',{
+            receptionData:singleData,
+        })
+    }catch(err){
+        console.log(err)            
+        return res.redirect('back')
+    }
+}
+module.exports.edit_reception=async(req,res)=>{
+    try{
+        // console.log(req.body)
+        // console.log(req.file)
+        if(req.file){
+            let findData=await receptionModel.findById(req.params.id);
+            if(findData){
+                let imagePath=path.join(__dirname,'..',findData.image);
+                await fs.unlinkSync(imagePath);
+            }
+            var img='';
+            req.body.image=receptionModel.iPath+'/'+req.file.filename;
+        }
+        else{
+            let findData=await receptionModel.findById(req.params.id);
+            if(findData){
+                req.body.image=findData.image;
+                req.body.name=req.body.fname+' '+req.body.lname;
+            }
+        }
+        await receptionModel.findByIdAndUpdate(req.params.id,req.body);
+        console.log('Record updated successfully')            
+        return res.redirect('/reception/view_reception');
     }
     catch(err){
         console.log(err)            

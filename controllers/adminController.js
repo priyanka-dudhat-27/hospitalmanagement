@@ -1,5 +1,6 @@
 const Admin=require('../models/adminModel')
 const doctorModel=require('../models/doctor_detailsModel');
+const appointmentModel=require('../models/appointmentModel');
 const path=require('path')
 const fs=require('fs')
 module.exports.login=async(req,res)=>{
@@ -7,8 +8,22 @@ module.exports.login=async(req,res)=>{
 }
 module.exports.signIn=async(req,res)=>{
     try{
-        console.log('login successfully')
-        return res.redirect('/admin/dashboard')
+        let checkEmail=await Admin.findOne({email:req.body.email})
+        if(checkEmail){
+            if(checkEmail.password==req.body.password){
+                console.log('login successfully')
+                return res.redirect('/admin/dashboard')
+            }
+            else{
+                console.log('wrong password')
+                return res.redirect('back')
+            }
+        }else{
+            console.log('wrong email')
+            return res.redirect('back')
+        }
+        console.log(req.body)
+        
     }
     catch(err){
         console.log(err)            
@@ -18,10 +33,16 @@ module.exports.signIn=async(req,res)=>{
 module.exports.dashboard=async(req,res)=>{
     let adminData=await Admin.find().countDocuments();
     let doctorData=await doctorModel.find().countDocuments();
+    let receptionData=await Admin.find().countDocuments();
+    let appointmentData=await appointmentModel.find().countDocuments();
+
+
 
     return res.render('dashboard',{
         adminData:adminData,
         doctorData:doctorData,
+        receptionData:receptionData,
+        appointmentData:appointmentData
     });
 }
 module.exports.add_admin=async(req,res)=>{
