@@ -3,27 +3,23 @@ const doctorModel=require('../models/doctor_detailsModel');
 const appointmentModel=require('../models/appointmentModel');
 const path=require('path')
 const fs=require('fs')
+const nodemailer=require('nodemailer')
+;
+
 module.exports.login=async(req,res)=>{
+
     return res.render('login');
 }
 module.exports.signIn=async(req,res)=>{
-    try{
-        let checkEmail=await Admin.findOne({email:req.body.email})
-        if(checkEmail){
-            if(checkEmail.password==req.body.password){
-                console.log('login successfully')
-                return res.redirect('/admin/dashboard')
-            }
-            else{
-                console.log('wrong password')
-                return res.redirect('back')
-            }
-        }else{
-            console.log('wrong email')
-            return res.redirect('back')
+    try{            
+        if(req.user){
+            req.flash('success','Login Successfully')    
+            return res.redirect('/admin/dashboard')
         }
-        console.log(req.body)
-        
+        else{
+            req.flash('error','Invalid Credential')    
+            return res.render('logIn')
+    }
     }
     catch(err){
         console.log(err)            
@@ -147,5 +143,170 @@ module.exports.edit_admin=async(req,res)=>{
     catch(err){
         console.log(err)            
         return res.redirect('back')
+    }
+}
+
+module.exports.profile=async(req,res)=>{
+    return res.render('profile_admin',{
+        adminData:req.user,
+    })
+}
+
+// change password
+module.exports.changePass=async(req,res)=>{
+    return res.render('changePass_admin')
+}
+
+module.exports.resetAdminPass=async(req,res)=>{
+    try{
+        console.log(req.body);
+        if(req.body.cpass==req.user.password){
+            if(req.body.cpass!=req.body.npass){
+                if(req.body.npass==req.body.conpass){
+                    let changed=await Admin.findByIdAndUpdate(req.user.id,{
+                        password:req.body.npass
+                    })
+                    if(changed){
+                        req.flash('success','Password Changed Successfully')            
+                        return res.redirect('/admin/logout')
+                    }else{
+                        req.flash('error','Password not change')            
+                        return res.redirect('back');
+                    }
+                }else{
+                    req.flash('error','New and confirm password not same')            
+                    return res.redirect('back');
+                }
+            }else{
+                req.flash('error','Current and New password are same')    
+                return res.redirect('back');
+        
+            }
+        }
+        else{
+            req.flash('error','db password not match')            
+            return res.redirect('back')
+        }
+    }
+    catch(err){
+        req.flash('error','something wrong')            
+        return res.redirect('back')
+    }
+}
+// forget password
+module.exports.forgetPass=async(req,res)=>{
+    try{
+        return res.render('forgetPass_admin');
+    }
+    catch(err){
+        console.log(err);
+        req.flash('error','something wrong')            
+        return res.redirect('back')
+    }
+}
+
+module.exports.checkEmailForget=async(req,res)=>{
+    try{
+        console.log(req.body);    
+        let checkEmail=await Admin.findOne({email:req.body.email});
+        if(checkEmail){
+
+            const transporter = nodemailer.createTransport({
+                host: "smtp.GMAIL.COM",
+                port: 465,
+                secure: true,
+                auth: {
+                  // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+                  user: "pdudhat27@gmail.com",
+                  pass: "mwfmuosjsoikcgmh",
+                },
+              });
+
+              var otp=Math.round(Math.random()*10000)
+              req.session.otp = otp;
+              req.session.email = req.body.email;              
+              var msg=`<h1>RnW inbstitute: <b>otp:${otp}</b></h1>`
+              const info = await transporter.sendMail({
+                from: 'pdudhat27@gmail.com', // sender address
+                to: req.body.email, // list of receivers
+                subject: "Your OTP is Here", // Subject line
+                text: "Hello world?", // plain text body
+                html: msg,otp // html body
+              });
+              return res.redirect('/admin/checkOTP');
+
+        }
+        else{
+            req.flash('error','Invalid Email')            
+            return res.redirect('back');
+        }
+    }
+    catch(err){
+        console.log(err);
+        return res.redirect('back');
+    }
+}
+module.exports.checkOTP=async(req,res)=>{
+    return res.render('checkOtp_admin');
+}
+module.exports.verifyOtp=async(req,res)=>{
+    console.log(req.body);
+    // console.log(req.user.otp);
+    try{
+        if(req.body.otp==req.session.otp){
+            return res.redirect('/admin/adminChangePassword')
+        }else{
+            req.flash('error','OTP not match')            
+            return res.redirect('back')
+        }
+    }
+    catch(err){
+        console.log(err);
+        req.flash('error','something wrong')            
+        return res.redirect('back')
+    }
+}
+module.exports.adminChangePassword=async(req,res)=>{
+    return res.render('adminChangePassword');
+     
+}
+
+module.exports.resetPass = async (req, res) => {
+    try {
+        console.log(req.body.npass);
+        console.log(req.body.conpass);
+        
+        // Retrieve email from session
+        var email = req.session.email;
+        console.log(email);
+
+        if (req.body.npass == req.body.conpass) {
+            let checkEmail = await Admin.findOne({ email: email });
+            if (checkEmail) {
+                let changePass = await Admin.findByIdAndUpdate(checkEmail._id, {
+                    password: req.body.npass
+                });
+                
+                if (changePass) {
+                    req.session.destroy(function (err) {
+                        if (err) {
+                            console.log(err);
+                            req.flash('error', 'something wrong');
+                        }
+                        return res.redirect('/admin');
+                    });
+                }
+            } else {
+                req.flash('error', 'Invalid Email');
+                return res.redirect('back');
+            }
+        } else {
+            console.log('new and confirm password not match');
+            return res.redirect('back');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'something wrong');
+        return res.redirect('back');
     }
 }
