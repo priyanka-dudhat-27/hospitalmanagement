@@ -19,10 +19,10 @@ module.exports.insert_doctor=async(req,res)=>{
 
         let doctor_detailsData=await doctor_detailsModel.create(req.body);
         if(doctor_detailsData){
-            console.log('doctor record inserted successfully');
+            req.flash('success','Doctor record created successfully');         
             return res.redirect('back')
         }else{
-            console.log('something wrong')          
+            req.flash('error','something wrong');         
             return res.redirect('back')
         }
     }
@@ -39,7 +39,8 @@ module.exports.view_doctor=async(req,res)=>{
         });
     }
     catch(err){
-        console.log('something wrong')            
+        console.log(err)            
+        req.flash('error','something wrong');         
         return res.redirect('back');
     }
 }
@@ -52,11 +53,13 @@ module.exports.profile=async(req,res)=>{
             singleData:singleData,
         })
     }else{
-        console.log('profile not found');
+        req.flash('error','profile not found');         
         return res.redirect('back')
     }
    } catch (err) {
         console.log(err);
+        req.flash('error','something wrong');         
+        return res.redirect('back')
    }
 }
 
@@ -72,14 +75,15 @@ module.exports.deleteRecord=async(req,res)=>{
         }
         let delData=await doctor_detailsModel.findByIdAndDelete(req.params.id);
         if(delData){
-            console.log('Record deleted successfully')            
+            req.flash('success','Record deleted successfully');         
             return res.redirect('/doctor_detailsModel/doctor_details/view_doctor')
         }else{
             console.log('something wrong')            
         }
     }
     catch(err){
-        console.log(err)            
+        console.log(err)      
+        req.flash('error','something wrong');               
         return res.redirect('back');
     }
 }
@@ -91,7 +95,8 @@ module.exports.updateRecord=async(req,res)=>{
             singleData:singleData,
         })
     }catch(err){
-        console.log(err)            
+        console.log(err)           
+        req.flash('error','something wrong');          
         return res.redirect('back')
     }
 }
@@ -115,11 +120,12 @@ module.exports.edit_doctor=async(req,res)=>{
             }
         }
         await doctor_detailsModel.findByIdAndUpdate(req.params.id,req.body);
-        console.log('doctor record updated successfully')            
+        req.flash('success','Doctor record updated successfully');         
         return res.redirect('/admin/doctor_details/view_doctor');
     }
     catch(err){
         console.log(err)            
+        req.flash('error','something wrong');         
         return res.redirect('back')
     }
 }

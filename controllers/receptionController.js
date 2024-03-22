@@ -15,10 +15,11 @@ module.exports.dashboardDoctor = async (req, res) => {
 };
 module.exports.signIn = async (req, res) => {
   try {
-    console.log("login successfully");
+    req.flash('success','login successfully');         
     return res.redirect("/reception/dashboardReception");
   } catch (err) {
     console.log(err);
+    req.flash('error','something wrong');         
     return res.redirect("back");
   }
 };
@@ -28,6 +29,8 @@ module.exports.book_appointment = async (req, res) => {
         return res.render("book_appointment");
     } catch (err) {
         console.log(err);
+        req.flash('error','something wrong');         
+        return res.render('back');
     }
 };
 
@@ -39,14 +42,16 @@ module.exports.add_appointment=async(req,res)=>{
     try {
         let appointmentData=await appointmentModel.create(req.body);
         if(appointmentData){
-            console.log('appointment record inserted successfully');
+            req.flash('success','Appointment created successfully');         
             return res.redirect('back')
         }else{
-            console.log('something wrong')          
+            req.flash('error','something wrong');         
             return res.redirect('back')
         }
     } catch (err) {
         console.log(err);
+        req.flash('error','something wrong');         
+        return res.redirect('back')
     }
 }
 
@@ -58,7 +63,8 @@ module.exports.view_appointment=async(req,res)=>{
         });
     }
     catch(err){
-        console.log(err)            
+        console.log(err)      
+        req.flash('error','something wrong');               
         return res.redirect('back');
     }
 }
@@ -67,14 +73,16 @@ module.exports.deleteRecord=async(req,res)=>{
     try{
         let delData=await appointmentModel.findByIdAndDelete(req.params.id);
         if(delData){
-            console.log('Record deleted successfully')            
+            req.flash('success','Record deleted successfully');         
             return res.redirect('/reception/view_appointment')
         }else{
-            console.log('something wrong')            
+            req.flash('error','something wrong'); 
+            return res.redirect('back');        
         }
     }
     catch(err){
-        console.log(err)            
+        console.log(err) 
+        req.flash('error','something wrong');                    
         return res.redirect('back');
     }
 }
@@ -97,18 +105,26 @@ module.exports.edit_appointment=async(req,res)=>{
         req.body.name=req.body.fname+' '+req.body.lname;
 
         await appointmentModel.findByIdAndUpdate(req.params.id,req.body);
-        console.log('Appointment record updated successfully')            
+
+        req.flash('success','Appointment updated successfully');         
         return res.redirect('/reception/view_appointment');
     }
     catch(err){
-        console.log(err)            
+        console.log(err)        
+        req.flash('error','something wrong');             
         return res.redirect('back')
     }
 }
 
 // receptionist_details
 module.exports.add_reception=async(req,res)=>{
-    return res.render('add_reception');
+    try {
+        return res.render('add_reception');
+    } catch (err) {
+        console.log(err);
+        req.flash('error','something wrong');         
+        return res.render('back');
+    }
 }
 
 module.exports.insert_reception_details=async(req,res)=>{
@@ -125,15 +141,16 @@ module.exports.insert_reception_details=async(req,res)=>{
 
         let receptionData=await receptionModel.create(req.body);
         if(receptionData){
-            console.log('record inserted successfully');
+            req.flash('success','Record created successfully');         
             return res.redirect('back')
         }else{
-            console.log('something wrong')          
+            req.flash('error','something wrong');         
             return res.redirect('back')
         }
     }
     catch(err){
-        console.log(err)            
+        console.log(err)    
+        req.flash('error','something wrong');                 
         return res.redirect('back')
     }
 }
@@ -147,7 +164,8 @@ module.exports.view_reception=async(req,res)=>{
         });
     }
     catch(err){
-        console.log(err)            
+        console.log(err)        
+        req.flash('error','something wrong');             
         return res.redirect('back');
     }
 }
@@ -160,14 +178,16 @@ module.exports.deleteRecord=async(req,res)=>{
             await fs.unlinkSync(imagePath)
         }else{
             console.log('wrong')
+            req.flash('error','something wrong');         
             return res.redirect('back')
         }
         let delData=await receptionModel.findByIdAndDelete(req.params.id);
         if(delData){
-            console.log('Record deleted successfully')            
+            req.flash('success','Record deleted successfully');         
             return res.redirect('/reception/view_reception')
         }else{
-            console.log('something wrong')            
+            req.flash('error','something wrong');   
+            return res.redirect('back');      
         }
     }
     catch(err){
@@ -183,7 +203,8 @@ module.exports.updateRecord=async(req,res)=>{
             receptionData:singleData,
         })
     }catch(err){
-        console.log(err)            
+        console.log(err)     
+        req.flash('error','something wrong');                
         return res.redirect('back')
     }
 }
@@ -208,11 +229,12 @@ module.exports.edit_reception=async(req,res)=>{
             }
         }
         await receptionModel.findByIdAndUpdate(req.params.id,req.body);
-        console.log('Record updated successfully')            
+        req.flash('success','Record updated successfully');         
         return res.redirect('/reception/view_reception');
     }
     catch(err){
-        console.log(err)            
+        console.log(err)       
+        req.flash('error','something wrong');              
         return res.redirect('back')
     }
 }

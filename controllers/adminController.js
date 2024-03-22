@@ -58,15 +58,17 @@ module.exports.insert_adminData=async(req,res)=>{
 
         let adminData=await Admin.create(req.body);
         if(adminData){
-            console.log('record inserted successfully');
+            // console.log('record inserted successfully');
+            req.flash('success','admin record added successfully');
             return res.redirect('back')
         }else{
-            console.log('something wrong')          
+            req.flash('error','something wrong');         
             return res.redirect('back')
         }
     }
     catch(err){
-        console.log(err)            
+        console.log(err)     
+        req.flash('error','something wrong');                
         return res.redirect('back')
     }
 }
@@ -79,7 +81,8 @@ module.exports.view_admin=async(req,res)=>{
         });
     }
     catch(err){
-        console.log('something wrong')            
+        console.log(err)      
+        req.flash('error','something wrong');               
         return res.redirect('back');
     }
 }
@@ -96,14 +99,16 @@ module.exports.deleteRecord=async(req,res)=>{
         }
         let delData=await Admin.findByIdAndDelete(req.params.id);
         if(delData){
-            console.log('Record deleted successfully')            
+            req.flash('success','record deleted successfully');         
             return res.redirect('/admin/view_admin')
         }else{
-            console.log('something wrong')            
+            req.flash('error','something wrong');    
+            return res.redirect('back')     
         }
     }
     catch(err){
-        console.log(err)            
+        console.log(err)       
+        req.flash('error','something wrong');              
         return res.redirect('back');
     }
 }
@@ -114,7 +119,8 @@ module.exports.updateRecord=async(req,res)=>{
             adminData:singleData,
         })
     }catch(err){
-        console.log(err)            
+        console.log(err)  
+        req.flash('error','something wrong');                   
         return res.redirect('back')
     }
 }
@@ -137,11 +143,12 @@ module.exports.edit_admin=async(req,res)=>{
             }
         }
         await Admin.findByIdAndUpdate(req.params.id,req.body);
-        console.log('Record updated successfully')            
+        req.flash('success','Record updated successfully');                    
         return res.redirect('/admin/view_admin');
     }
     catch(err){
-        console.log(err)            
+        console.log(err)  
+        req.flash('error','something wrong');                   
         return res.redirect('back')
     }
 }
@@ -159,7 +166,7 @@ module.exports.changePass=async(req,res)=>{
 
 module.exports.resetAdminPass=async(req,res)=>{
     try{
-        console.log(req.body);
+        // console.log(req.body);
         if(req.body.cpass==req.user.password){
             if(req.body.cpass!=req.body.npass){
                 if(req.body.npass==req.body.conpass){
@@ -189,6 +196,7 @@ module.exports.resetAdminPass=async(req,res)=>{
         }
     }
     catch(err){
+        console.log(err)
         req.flash('error','something wrong')            
         return res.redirect('back')
     }
@@ -243,6 +251,7 @@ module.exports.checkEmailForget=async(req,res)=>{
     }
     catch(err){
         console.log(err);
+        req.flash('error','something wrong');         
         return res.redirect('back');
     }
 }
@@ -301,7 +310,7 @@ module.exports.resetPass = async (req, res) => {
                 return res.redirect('back');
             }
         } else {
-            console.log('new and confirm password not match');
+            req.flash('success','Password has been changed Successfully');
             return res.redirect('back');
         }
     } catch (err) {
