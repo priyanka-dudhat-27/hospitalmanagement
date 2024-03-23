@@ -33,21 +33,43 @@ module.exports.insert_doctor = async (req, res) => {
 };
 module.exports.view_doctor = async (req, res) => {
   try {
+     // console.log(req.query.page);
+     var page = 0;
+     var per_page = 3;
     // console.log(req.query.search)
     var search = "";
     if (req.query.search) {
       search = req.query.search;
     }
+    let allRecord = await doctor_detailsModel.find({
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ]
+    }).countDocuments();
+    let totalpage = Math.ceil(allRecord / per_page);
+    console.log(totalpage);
+
+    if (req.query.page) {
+      page = req.query.page;
+    }
+
     let viewData = await doctor_detailsModel.find({
       $or: [
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
       ],
-    });
+    })
+    .skip(page * per_page)
+    .limit(per_page)
+
     if (viewData) {
       return res.render("view_doctor", {
         doctor_detailsData: viewData,
         search: search,
+        totalpage: totalpage,
+        currentPage: page,
+        per_page: per_page,
       });
     } else {
       req.flash("error", "something wrong");

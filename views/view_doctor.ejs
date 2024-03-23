@@ -3,12 +3,30 @@
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">  
-                        <div class="row">
+                        <div class="row justify-content-between">
                             <div class="col-md-4">
                                 <form class="d-flex">
                                     <input type="text" name="search" value="<%=search%>" class="form-control mb-4 border rounded pt-3" style="border-radius: 10px;">
                                     <input type="submit" name="searching" value="search" class="form-control mb-4 bg-dark text-white" style="width: 200px;border-radius: 10px;">
                                   </form>
+                            </div>
+                            <div class="col-md-2">
+                                <!-- next-previous button pagination -->
+                                <%if(currentPage!=0){%>
+                                <a
+                                  href="/admin/doctor_details/view_doctor/?page=<%=currentPage-1%>&search=<%=search%>"
+                                  class="btn btn-info"
+                                  >prev</a
+                                >
+                                <%}%>
+                                <a href="" class="btn btn-warning"> <%=parseInt(currentPage)+1%> </a>
+                                <%var next=parseInt(currentPage)+1;if(next!=totalpage){%>
+                                <a
+                                  href="/admin//doctor_details/view_doctor?page=<%=next%>&search=<%=search%>"
+                                  class="btn btn-info"
+                                  >next</a
+                                >
+                                <%}%>
                             </div>
                         </div>                     
                         <form action="/admin/doctor_details/deleteMultiple" method="post">

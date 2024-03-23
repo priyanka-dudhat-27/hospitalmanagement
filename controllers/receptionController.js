@@ -73,21 +73,43 @@ module.exports.add_appointment = async (req, res) => {
 
 module.exports.view_appointment = async (req, res) => {
   try {
+     // console.log(req.query.page);
+     var page = 0;
+     var per_page = 5;
     // console.log(req.query.search)
     var search = "";
     if (req.query.search) {
       search = req.query.search;
     }
+    let allRecord = await Admin.find({
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ]
+    }).countDocuments();
+    let totalpage = Math.ceil(allRecord / per_page);
+    console.log(totalpage);
+
+    if (req.query.page) {
+      page = req.query.page;
+    }
+
     let viewData = await appointmentModel.find({
       $or: [
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
       ],
-    });
+    })
+    .skip(page * per_page)
+    .limit(per_page)
+
     if (viewData) {
       return res.render("view_appointment", {
         appointmentData: viewData,
-        search:search
+        search:search,
+        totalpage: totalpage,
+        currentPage: page,
+        per_page: per_page,
       });
     } else {
       req.flash("error", "something wrong");
@@ -184,21 +206,43 @@ module.exports.insert_reception_details = async (req, res) => {
 
 module.exports.view_reception = async (req, res) => {
   try {
+     // console.log(req.query.page);
+     var page = 0;
+     var per_page = 5;
     // console.log(req.query.search)
     var search = "";
     if (req.query.search) {
       search = req.query.search;
     }
+    let allRecord = await receptionModel.find({
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ]
+    }).countDocuments();
+    let totalpage = Math.ceil(allRecord / per_page);
+    console.log(totalpage);
+
+    if (req.query.page) {
+      page = req.query.page;
+    }
+
     let viewData = await receptionModel.find({
       $or:[
         {name:{$regex:search, $options: 'i' }},
         {email:{$regex:search, $options: 'i' }}
     ]
-    });
+    }) 
+    .skip(page * per_page)
+    .limit(per_page)
+
     if (viewData) {
       return res.render("view_reception", {
         receptionData: viewData,
-        search:search
+        search:search,
+        totalpage: totalpage,
+        currentPage: page,
+        per_page: per_page,
       });
     } else {
       req.flash("error", "something wrong");
