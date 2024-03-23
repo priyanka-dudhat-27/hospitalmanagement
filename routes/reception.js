@@ -21,7 +21,4 @@ routs.get('/deleteRecord/:id',receptionController.deleteRecord)
 routs.get('/updateRecord/:id',receptionController.deleteRecord)
 routs.post('/edit_reception/:id',receptionModel.uploadImage,receptionController.edit_reception);
 
-
-
-
 module.exports = routs;

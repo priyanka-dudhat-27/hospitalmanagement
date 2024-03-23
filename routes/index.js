@@ -6,4 +6,7 @@ routs.use('/admin',require('./admin'));
 routs.use('/doctor',require('./doctor'));
 routs.use('/reception',require('./reception'));
 
+// userpanel
+routs.use('/',require('./user'));
+
 module.exports=routs;

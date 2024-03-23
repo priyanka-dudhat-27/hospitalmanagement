@@ -16,11 +16,11 @@ routs.post('/edit_admin/:id',Admin.uploadImage,adminController.edit_admin)
 routs.get('/profile',passport.checkAuth,adminController.profile)
 routs.get('/changePass',passport.checkAuth,adminController.changePass)
 routs.post('/resetAdminPass',adminController.resetAdminPass)
-routs.get('/forgetPass',adminController.forgetPass)
+routs.get('/forgetPass',passport.checkAuth,adminController.forgetPass)
 routs.post('/checkEmailForget',adminController.checkEmailForget)
-routs.get('/checkOTP',adminController.checkOTP)
+routs.get('/checkOTP',passport.checkAuth,adminController.checkOTP)
 routs.post('/verifyOtp',adminController.verifyOtp)
-routs.get('/adminChangePassword',adminController.adminChangePassword)
+routs.get('/adminChangePassword',passport.checkAuth,adminController.adminChangePassword)
 routs.post('/resetPass',adminController.resetPass)
 
 
@@ -36,7 +36,7 @@ routs.get('/logout',async(req,res)=>{
 })
 
 // doctor
-routs.use('/doctor_details',require('./doctor_details'))
-routs.use('/reception',require('./reception'))
+routs.use('/doctor_details',passport.checkAuth,require('./doctor_details'))
+routs.use('/reception',passport.checkAuth,require('./reception'))
 
 module.exports=routs;
