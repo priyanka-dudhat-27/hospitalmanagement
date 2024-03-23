@@ -7,9 +7,13 @@ const nodemailer=require('nodemailer')
 ;
 
 module.exports.login=async(req,res)=>{
-
-    return res.render('login');
-}
+    try {
+        return res.render('login');
+    } catch (err) {
+        console.log(err);
+        req.flash('error','something wrong'); 
+    }               
+}   
 module.exports.signIn=async(req,res)=>{
     try{            
         if(req.user){
@@ -22,7 +26,8 @@ module.exports.signIn=async(req,res)=>{
     }
     }
     catch(err){
-        console.log(err)            
+        console.log(err)   
+        req.flash('error','something wrong');                         
         return res.redirect('back')
     }
 }
@@ -42,7 +47,12 @@ module.exports.dashboard=async(req,res)=>{
     });
 }
 module.exports.add_admin=async(req,res)=>{
-    return res.render('add_admin');
+    try {
+        return res.render('add_admin');
+    } catch (err) {
+        console.log(err);
+        req.flash('error','something wrong'); 
+    }    
 }
 
 module.exports.insert_adminData=async(req,res)=>{
@@ -55,6 +65,7 @@ module.exports.insert_adminData=async(req,res)=>{
         }
         req.body.name=req.body.fname+' '+req.body.lname;
         req.body.image=img;
+        req.body.status=true;
 
         let adminData=await Admin.create(req.body);
         if(adminData){
@@ -161,7 +172,12 @@ module.exports.profile=async(req,res)=>{
 
 // change password
 module.exports.changePass=async(req,res)=>{
-    return res.render('changePass_admin')
+    try {
+        return res.render('changePass_admin')
+    } catch (err) {
+        console.log(err);
+        req.flash('error','something wrong'); 
+    }    
 }
 
 module.exports.resetAdminPass=async(req,res)=>{
@@ -256,7 +272,14 @@ module.exports.checkEmailForget=async(req,res)=>{
     }
 }
 module.exports.checkOTP=async(req,res)=>{
-    return res.render('checkOtp_admin');
+    try{
+        return res.render('checkOtp_admin');
+    }
+    catch(err){
+        console.log(err);
+        req.flash('error','something wrong')            
+        return res.redirect('back')
+    }
 }
 module.exports.verifyOtp=async(req,res)=>{
     console.log(req.body);
@@ -276,8 +299,14 @@ module.exports.verifyOtp=async(req,res)=>{
     }
 }
 module.exports.adminChangePassword=async(req,res)=>{
-    return res.render('adminChangePassword');
-     
+    try{
+        return res.render('adminChangePassword');
+    }
+    catch(err){
+        console.log(err);
+        req.flash('error','something wrong')            
+        return res.redirect('back')
+    }
 }
 
 module.exports.resetPass = async (req, res) => {
@@ -318,4 +347,50 @@ module.exports.resetPass = async (req, res) => {
         req.flash('error', 'something wrong');
         return res.redirect('back');
     }
+}
+
+// status active-deactive
+module.exports.deactive=async(req,res)=>{
+    try {
+        let adminDeactive=await Admin.findByIdAndUpdate(req.params.id,{status:false})
+        if(adminDeactive){
+            req.flash('success','Admin deactivated successfully');
+            return res.redirect('/admin/view_admin');
+        }else{
+            req.flash('error','something wrong');
+            return res.redirect('back');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'something wrong');
+        return res.redirect('back');
+    }
+}
+module.exports.active=async(req,res)=>{
+    try {
+        let adminActive=await Admin.findByIdAndUpdate(req.params.id,{status:true})
+        if(adminActive){
+            req.flash('success','Admin activated successfully');
+            return res.redirect('/admin/view_admin');
+        }else{
+            req.flash('error','something wrong');
+            return res.redirect('back');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'something wrong');
+        return res.redirect('back');
+    }
+}
+
+// multile delete
+module.exports.delMultiple=async(req,res)=>{
+     let d=await Admin.deleteMany({_id:{$in:req.body.adminId}})
+     if(d){
+         req.flash('success','Multiple records deleted successfully');         
+         return res.redirect('/admin/view_admin')
+     }else{
+         req.flash('error','something wrong');    
+         return res.redirect('back')
+     }
 }

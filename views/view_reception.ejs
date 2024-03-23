@@ -18,6 +18,7 @@
                   <th>Gender</th>
                   <th>City</th>
                   <th>Message</th>
+                  <th>Status</th>
                   <th>Action</th>
                   
                 </tr>
@@ -36,6 +37,14 @@
                         <td><%=ad.gender%></td>
                         <td><%=ad.city%></td>
                         <td><%=ad.message%></td>
+
+                        <% if(ad.status){%>
+                          <td><a href="/admin/reception/deactive/<%=ad.id%>"
+                              class="btn btn-success">Active</a></td>
+                        <%}else{%>
+                          <td><a href="/admin/reception/active/<%=ad.id%>"
+                              class="btn btn-danger">Deactive</a></td>
+                        <%}%>   
 
                         <td>
                             <a href="/admin/reception/deleteRecord/<%=ad.id%>" style="color: red;"><i class="fa fa-trash"></i></a>  ||

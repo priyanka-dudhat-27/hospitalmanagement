@@ -22,7 +22,8 @@ routs.get('/checkOTP',passport.checkAuth,adminController.checkOTP)
 routs.post('/verifyOtp',adminController.verifyOtp)
 routs.get('/adminChangePassword',passport.checkAuth,adminController.adminChangePassword)
 routs.post('/resetPass',adminController.resetPass)
-
+routs.get('/deactive/:id',adminController.deactive)
+routs.get('/active/:id',adminController.active)
 
 
 

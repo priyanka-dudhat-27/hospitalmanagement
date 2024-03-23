@@ -2,14 +2,22 @@ const passport=require('passport')
 const localStretegy=require('passport-local').Strategy;
 const Admin=require('../models/adminModel')
 
+
 passport.use(new localStretegy({
     usernameField:"email",
 },async function(email,password,done){
     let checkEmail=await Admin.findOne({email:email});
     if(checkEmail){
-        if(checkEmail.password==password){
-            return done(null,checkEmail)
-        }else{
+        if(checkEmail.status === true){
+            if(checkEmail.password==password){
+                return done(null,checkEmail)
+            }else{
+                return done(null,false)
+            }
+        }
+        else{
+            console.log('user deactived')
+
             return done(null,false)
         }
     }else{

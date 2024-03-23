@@ -20,5 +20,7 @@ routs.get('/view_reception',receptionController.view_reception);
 routs.get('/deleteRecord/:id',receptionController.deleteRecord)
 routs.get('/updateRecord/:id',receptionController.deleteRecord)
 routs.post('/edit_reception/:id',receptionModel.uploadImage,receptionController.edit_reception);
+routs.get('/deactive/:id',receptionController.deactive)
+routs.get('/active/:id',receptionController.active)
 
 module.exports = routs;

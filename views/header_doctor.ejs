@@ -157,65 +157,24 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="#">
+                            <a class="js-arrow" href="/doctor/dashboardDoctor">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="index.html">Dashboard 1</a>
-                                </li>
-                               
-                            </ul>
                         </li>
                      
                        
                    
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-copy"></i>Admin</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                          
-                                <li>
-                                    <a href="/admin/add_admin">
-                                        <i class="far fa-check-square"></i>Add Admin</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/view_admin">
-                                        <i class="fas fa-table"></i>View Admin</a>
-                                </li>
-                               
-                            </ul>
-                        </li>
-
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
                                 <i class="fas fa-copy"></i>Doctor</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                           
                                 <li>
-                                    <a href="/admin/doctor_details/add_doctor">
+                                    <a href="/admin/add_doctor">
                                         <i class="far fa-check-square"></i>Add Doctor</a>
                                 </li>
                                 <li>
                                     <a href="/admin/doctor_details/view_doctor">
                                         <i class="fas fa-table"></i>View Doctor</a>
-                                </li>
-                               
-                            </ul>
-                        </li>
-                       
-                        
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-copy"></i>Reception</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                          
-                                <li>
-                                    <a href="/admin/reception/add_reception">
-                                        <i class="far fa-check-square"></i>Add Reception</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/reception/view_reception">
-                                        <i class="fas fa-table"></i>View Reception</a>
                                 </li>
                                
                             </ul>
@@ -351,23 +310,23 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="<%=locals.admin.image%>" alt="<%=locals.admin.name%>" />
+                                            <img src="/images/logo.png" alt="john doe image" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><%=locals.admin.name%></a>
+                                            <a class="js-acc-btn" href="#">john doe</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="<%=locals.admin.image%>" alt="<%=locals.admin.name%>" />
+                                                        <img src="#" alt="john doe image" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#"><%=locals.admin.name%></a>
+                                                        <a href="#">john doe</a>
                                                     </h5>
-                                                    <span class="email"><%=locals.admin.email%></span>
+                                                    <span class="email">john doe@gmail.com</span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">

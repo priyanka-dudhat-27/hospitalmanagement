@@ -16,6 +16,7 @@ module.exports.insert_doctor=async(req,res)=>{
         }
         req.body.name=req.body.fname+' '+req.body.lname;
         req.body.image=img;
+        req.body.status=true;
 
         let doctor_detailsData=await doctor_detailsModel.create(req.body);
         if(doctor_detailsData){
@@ -27,7 +28,8 @@ module.exports.insert_doctor=async(req,res)=>{
         }
     }
     catch(err){
-        console.log(err)            
+        console.log(err)       
+        req.flash('error','something wrong');              
         return res.redirect('back')
     }
 }
@@ -76,7 +78,7 @@ module.exports.deleteRecord=async(req,res)=>{
         let delData=await doctor_detailsModel.findByIdAndDelete(req.params.id);
         if(delData){
             req.flash('success','Record deleted successfully');         
-            return res.redirect('/doctor_detailsModel/doctor_details/view_doctor')
+            return res.redirect('back')
         }else{
             console.log('something wrong')            
         }
@@ -127,5 +129,39 @@ module.exports.edit_doctor=async(req,res)=>{
         console.log(err)            
         req.flash('error','something wrong');         
         return res.redirect('back')
+    }
+}
+
+// status active-deactive 
+module.exports.deactive=async(req,res)=>{
+    try {
+        let doctorDeactive=await doctor_detailsModel.findByIdAndUpdate(req.params.id,{status:false})
+        if(doctorDeactive){
+            req.flash('success','Doctor deactivated successfully');
+            return res.redirect('back');
+        }else{
+            req.flash('error','something wrong');
+            return res.redirect('back');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'something wrong');
+        return res.redirect('back');
+    }
+}
+module.exports.active=async(req,res)=>{
+    try {
+        let doctorActive=await doctor_detailsModel.findByIdAndUpdate(req.params.id,{status:true})
+        if(doctorActive){
+            req.flash('success','Doctor activated successfully');
+            return res.redirect('back');
+        }else{
+            req.flash('error','something wrong');
+            return res.redirect('back');
+        }
+    } catch (err) {
+        console.log(err);
+        req.flash('error', 'something wrong');
+        return res.redirect('back');
     }
 }

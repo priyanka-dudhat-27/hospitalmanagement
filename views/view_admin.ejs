@@ -10,6 +10,10 @@
             <table class="table table-borderless table-striped table-earning text-left">
               <thead>
                 <tr>
+                  <th>
+                    <input type="checkbox">
+                    <a href="#"><i class="fa fa-trash text-danger" ></i></a>
+                  </th>
                   <th>No</th>
                   <th>Image</th>
                   <th>Name</th>
@@ -18,14 +22,15 @@
                   <th>Gender</th>
                   <th>City</th>
                   <th>Message</th>
-                  <th>Action</th>
-                  
+                  <th>Status</th>
+                  <th>Action</th>                  
                 </tr>
               </thead>
               <tbody>
                 <%var no=1%>
                 <%for(let ad of adminData){%>
                     <tr>
+                        <td><input type="checkbox"></td>
                         <td><%=no++%></td>
                         <td>
                             <img src="<%=ad.image%>" alt="">
@@ -36,6 +41,14 @@
                         <td><%=ad.gender%></td>
                         <td><%=ad.city%></td>
                         <td><%=ad.message%></td>
+
+                        <% if(ad.status){%>
+                          <td><a href="/admin/deactive/<%=ad.id%>"
+                              class="btn btn-success">Active</a></td>
+                        <%}else{%>
+                          <td><a href="/admin/active/<%=ad.id%>"
+                              class="btn btn-danger">Deactive</a></td>
+                        <%}%>                       
 
                         <td>
                             <a href="/admin/deleteRecord/<%=ad.id%>" style="color: red;"><i class="fa fa-trash"></i></a>  ||

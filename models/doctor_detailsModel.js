@@ -39,7 +39,11 @@ const doctor_detailsSchema=mongoose.Schema({
     image:{
         type:String,
         required:true
-    }  
+    },
+    status:{
+        type:Boolean,
+        req:true
+    }
 })
 
 

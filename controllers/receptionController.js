@@ -19,14 +19,27 @@ module.exports.dashboardDoctor = async (req, res) => {
   }
 };
 module.exports.signIn = async (req, res) => {
-  try {
-    req.flash("success", "login successfully");
-    return res.redirect("/reception/dashboardReception");
-  } catch (err) {
-    console.log(err);
-    req.flash("error", "something wrong");
-    return res.redirect("back");
-  }
+  try{
+    let checkEmail = await receptionModel.findOne({email:req.body.email})
+    if(checkEmail){
+        if(checkEmail.password==req.body.password){
+            req.flash('success','Login successfully');         
+            return res.redirect('/reception/dashboardReception')
+        }
+        else{
+            req.flash('error','Wrong password');         
+            return res.redirect('back')
+        }
+    }else{
+        req.flash('error','Wrong Email');         
+        return res.redirect('back')
+    }
+}
+catch(err){
+    console.log(err)    
+    req.flash('error','something wrong');                 
+    return res.redirect('back')
+}
 };
 
 module.exports.book_appointment = async (req, res) => {
@@ -232,3 +245,37 @@ module.exports.edit_reception = async (req, res) => {
     return res.redirect("back");
   }
 };
+
+//status active deactive
+module.exports.deactive=async(req,res)=>{
+  try {
+      let receptionDeactive=await receptionModel.findByIdAndUpdate(req.params.id,{status:false})
+      if(receptionDeactive){
+          req.flash('success','Reception deactivated successfully');
+          return res.redirect('back');
+      }else{
+          req.flash('error','something wrong');
+          return res.redirect('back');
+      }
+  } catch (err) {
+      console.log(err);
+      req.flash('error', 'something wrong');
+      return res.redirect('back');
+  }
+}
+module.exports.active=async(req,res)=>{
+  try {
+      let receptionActive=await receptionModel.findByIdAndUpdate(req.params.id,{status:true})
+      if(receptionActive){
+          req.flash('success','Reception activated successfully');
+          return res.redirect('back');
+      }else{
+          req.flash('error','something wrong');
+          return res.redirect('back');
+      }
+  } catch (err) {
+      console.log(err);
+      req.flash('error', 'something wrong');
+      return res.redirect('back');
+  }
+}
