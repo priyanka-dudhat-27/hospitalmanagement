@@ -19,27 +19,25 @@ module.exports.dashboardDoctor = async (req, res) => {
   }
 };
 module.exports.signIn = async (req, res) => {
-  try{
-    let checkEmail = await receptionModel.findOne({email:req.body.email})
-    if(checkEmail){
-        if(checkEmail.password==req.body.password){
-            req.flash('success','Login successfully');         
-            return res.redirect('/reception/dashboardReception')
-        }
-        else{
-            req.flash('error','Wrong password');         
-            return res.redirect('back')
-        }
-    }else{
-        req.flash('error','Wrong Email');         
-        return res.redirect('back')
+  try {
+    let checkEmail = await receptionModel.findOne({ email: req.body.email });
+    if (checkEmail) {
+      if (checkEmail.password == req.body.password) {
+        req.flash("success", "Login successfully");
+        return res.redirect("/reception/dashboardReception");
+      } else {
+        req.flash("error", "Wrong password");
+        return res.redirect("back");
+      }
+    } else {
+      req.flash("error", "Wrong Email");
+      return res.redirect("back");
     }
-}
-catch(err){
-    console.log(err)    
-    req.flash('error','something wrong');                 
-    return res.redirect('back')
-}
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
 };
 
 module.exports.book_appointment = async (req, res) => {
@@ -76,9 +74,14 @@ module.exports.add_appointment = async (req, res) => {
 module.exports.view_appointment = async (req, res) => {
   try {
     let viewData = await appointmentModel.find({});
-    return res.render("view_appointment", {
-      appointmentData: viewData,
-    });
+    if (viewData) {
+      return res.render("view_appointment", {
+        appointmentData: viewData,
+      });
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
   } catch (err) {
     console.log(err);
     req.flash("error", "something wrong");
@@ -151,11 +154,12 @@ module.exports.insert_reception_details = async (req, res) => {
     }
     req.body.name = req.body.fname + " " + req.body.lname;
     req.body.image = img;
+    req.body.status = true;
 
     let receptionData = await receptionModel.create(req.body);
     if (receptionData) {
       req.flash("success", "Record created successfully");
-      return res.redirect("back");
+      return res.redirect("/reception/view_reception");
     } else {
       req.flash("error", "something wrong");
       return res.redirect("back");
@@ -247,35 +251,80 @@ module.exports.edit_reception = async (req, res) => {
 };
 
 //status active deactive
-module.exports.deactive=async(req,res)=>{
+module.exports.deactive = async (req, res) => {
   try {
-      let receptionDeactive=await receptionModel.findByIdAndUpdate(req.params.id,{status:false})
-      if(receptionDeactive){
-          req.flash('success','Reception deactivated successfully');
-          return res.redirect('back');
-      }else{
-          req.flash('error','something wrong');
-          return res.redirect('back');
-      }
+    let receptionDeactive = await receptionModel.findByIdAndUpdate(
+      req.params.id,
+      { status: false }
+    );
+    if (receptionDeactive) {
+      req.flash("success", "Reception deactivated successfully");
+      return res.redirect("back");
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
   } catch (err) {
-      console.log(err);
-      req.flash('error', 'something wrong');
-      return res.redirect('back');
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
   }
-}
-module.exports.active=async(req,res)=>{
+};
+module.exports.active = async (req, res) => {
   try {
-      let receptionActive=await receptionModel.findByIdAndUpdate(req.params.id,{status:true})
-      if(receptionActive){
-          req.flash('success','Reception activated successfully');
-          return res.redirect('back');
-      }else{
-          req.flash('error','something wrong');
-          return res.redirect('back');
-      }
+    let receptionActive = await receptionModel.findByIdAndUpdate(
+      req.params.id,
+      { status: true }
+    );
+    if (receptionActive) {
+      req.flash("success", "Reception activated successfully");
+      return res.redirect("back");
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
   } catch (err) {
-      console.log(err);
-      req.flash('error', 'something wrong');
-      return res.redirect('back');
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
   }
-}
+};
+
+// delete multiple reception records
+module.exports.deleteMultiple = async (req, res) => {
+  try {
+    let d = await receptionModel.deleteMany({
+      _id: { $in: req.body.receptionIds },
+    });
+    if (d) {
+      req.flash("success", "Multiple records deleted successfully");
+      return res.redirect("back");
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
+// delete multiple appointments records
+module.exports.del_multiple_appointments = async (req, res) => {
+  try {
+    let d = await appointmentModel.deleteMany({_id: { $in: req.body.appointmentIds },
+    });
+    if (d) {
+      req.flash("success", "Multiple records deleted successfully");
+      return res.redirect("back");
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};

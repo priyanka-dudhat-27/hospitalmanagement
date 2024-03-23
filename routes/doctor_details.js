@@ -12,5 +12,7 @@ routs.get('/updateRecord/:id',doctor_detailsController.updateRecord)
 routs.post('/edit_doctor/:id',doctor_detailsModel.uploadImage,doctor_detailsController.edit_doctor)
 routs.get('/deactive/:id',doctor_detailsController.deactive)
 routs.get('/active/:id',doctor_detailsController.active)
+routs.post('/deleteMultiple',doctor_detailsController.deleteMultiple)
+
 
 module.exports=routs;

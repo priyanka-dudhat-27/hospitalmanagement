@@ -3,8 +3,12 @@
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
+                       
+                        <form action="/admin/doctor_details/deleteMultiple" method="post">
+                            <input type="checkbox" id="checkAll">
+                            <button type="submit"><i class="fa fa-trash text-info"></i></button>
                         <div class="row">
-                           <%for(let ad of doctor_detailsData){%>
+                                <%for(let ad of doctor_detailsData){%>
                             <a href="/admin/doctor_details/profile/<%=ad.id%>">
                                 <div class="col-md-4">
                                     <div class="card text-capitalize text-center">
@@ -15,6 +19,7 @@
                                             
                                             <h4>
                                                 <a href="/admin/doctor_details/deleteRecord/<%=ad.id%>"><i class="fa fa-trash text-danger"></i></a>
+                                                <input type="checkbox" value="<%=ad.id%>" name="doctorIds">
                                             </h4>
                                             <% if(ad.status){%>
                                                 <td><a href="/admin/doctor_details/deactive/<%=ad.id%>"
@@ -29,6 +34,7 @@
                                 </div>
                             </a>
                            <%}%>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -38,3 +44,8 @@
 
 
 <%-include('footer')%>
+<script>
+    $("#checkAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+  </script>

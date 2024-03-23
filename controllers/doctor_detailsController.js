@@ -21,7 +21,7 @@ module.exports.insert_doctor=async(req,res)=>{
         let doctor_detailsData=await doctor_detailsModel.create(req.body);
         if(doctor_detailsData){
             req.flash('success','Doctor record created successfully');         
-            return res.redirect('back')
+            return res.redirect('/admin/doctor_details/view_doctor')
         }else{
             req.flash('error','something wrong');         
             return res.redirect('back')
@@ -165,3 +165,23 @@ module.exports.active=async(req,res)=>{
         return res.redirect('back');
     }
 }
+
+// multiple doctor records delete
+
+module.exports.deleteMultiple = async (req, res) => {
+    try {
+      let d = await doctor_detailsModel.deleteMany({_id: { $in: req.body.doctorIds },
+      });
+      if (d) {
+        req.flash("success", "Multiple records deleted successfully");
+        return res.redirect("back");
+      } else {
+        req.flash("error", "something wrong");
+        return res.redirect("back");
+      }
+    } catch (err) {
+      console.log(err);
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
+  };

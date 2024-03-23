@@ -12,6 +12,8 @@ routs.get('/view_appointment',receptionController.view_appointment);
 routs.get('/deleteRecord/:id',receptionController.deleteRecord);
 routs.get('/updateRecord/:id',receptionController.updateRecord);
 routs.post('/edit_appointment/:id',receptionController.edit_appointment);
+routs.post('/del_multiple_appointments',receptionController.del_multiple_appointments)
+
 
 // receptionist_details
 routs.get('/add_reception',receptionController.add_reception)
@@ -22,5 +24,7 @@ routs.get('/updateRecord/:id',receptionController.deleteRecord)
 routs.post('/edit_reception/:id',receptionModel.uploadImage,receptionController.edit_reception);
 routs.get('/deactive/:id',receptionController.deactive)
 routs.get('/active/:id',receptionController.active)
+routs.post('/deleteMultiple',receptionController.deleteMultiple)
+
 
 module.exports = routs;

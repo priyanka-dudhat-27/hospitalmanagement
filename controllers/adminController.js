@@ -71,7 +71,7 @@ module.exports.insert_adminData=async(req,res)=>{
         if(adminData){
             // console.log('record inserted successfully');
             req.flash('success','admin record added successfully');
-            return res.redirect('back')
+            return res.redirect('/admin/view_admin');
         }else{
             req.flash('error','something wrong');         
             return res.redirect('back')
@@ -383,14 +383,20 @@ module.exports.active=async(req,res)=>{
     }
 }
 
-// multile delete
-module.exports.delMultiple=async(req,res)=>{
-     let d=await Admin.deleteMany({_id:{$in:req.body.adminId}})
-     if(d){
-         req.flash('success','Multiple records deleted successfully');         
-         return res.redirect('/admin/view_admin')
-     }else{
-         req.flash('error','something wrong');    
-         return res.redirect('back')
-     }
+// delete multiple records
+module.exports.deleteMultiple = async(req, res)=>{
+    try {
+        let d=await Admin.deleteMany({_id:{$in:req.body.adminIds}})
+        if(d){
+            req.flash('success','Multiple records deleted successfully');         
+            return res.redirect('back')
+        }else{
+            req.flash('error','something wrong');    
+            return res.redirect('back')
+        }
+    } catch (err) {
+        console.log(err)
+        req.flash('error','something wrong');
+        return res.redirect('back');
+    }
 }

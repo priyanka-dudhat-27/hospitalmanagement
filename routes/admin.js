@@ -24,7 +24,7 @@ routs.get('/adminChangePassword',passport.checkAuth,adminController.adminChangeP
 routs.post('/resetPass',adminController.resetPass)
 routs.get('/deactive/:id',adminController.deactive)
 routs.get('/active/:id',adminController.active)
-
+routs.post('/deleteMultiple',adminController.deleteMultiple)
 
 
 routs.get('/logout',async(req,res)=>{
