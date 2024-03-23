@@ -73,10 +73,21 @@ module.exports.add_appointment = async (req, res) => {
 
 module.exports.view_appointment = async (req, res) => {
   try {
-    let viewData = await appointmentModel.find({});
+    // console.log(req.query.search)
+    var search = "";
+    if (req.query.search) {
+      search = req.query.search;
+    }
+    let viewData = await appointmentModel.find({
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ],
+    });
     if (viewData) {
       return res.render("view_appointment", {
         appointmentData: viewData,
+        search:search
       });
     } else {
       req.flash("error", "something wrong");
@@ -173,10 +184,26 @@ module.exports.insert_reception_details = async (req, res) => {
 
 module.exports.view_reception = async (req, res) => {
   try {
-    let viewData = await receptionModel.find({});
-    return res.render("view_reception", {
-      receptionData: viewData,
+    // console.log(req.query.search)
+    var search = "";
+    if (req.query.search) {
+      search = req.query.search;
+    }
+    let viewData = await receptionModel.find({
+      $or:[
+        {name:{$regex:search, $options: 'i' }},
+        {email:{$regex:search, $options: 'i' }}
+    ]
     });
+    if (viewData) {
+      return res.render("view_reception", {
+        receptionData: viewData,
+        search:search
+      });
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
   } catch (err) {
     console.log(err);
     req.flash("error", "something wrong");
@@ -313,7 +340,8 @@ module.exports.deleteMultiple = async (req, res) => {
 // delete multiple appointments records
 module.exports.del_multiple_appointments = async (req, res) => {
   try {
-    let d = await appointmentModel.deleteMany({_id: { $in: req.body.appointmentIds },
+    let d = await appointmentModel.deleteMany({
+      _id: { $in: req.body.appointmentIds },
     });
     if (d) {
       req.flash("success", "Multiple records deleted successfully");

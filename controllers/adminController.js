@@ -86,10 +86,26 @@ module.exports.insert_adminData=async(req,res)=>{
 
 module.exports.view_admin=async(req,res)=>{
     try{
-        let viewData=await Admin.find({});
-        return res.render('view_admin',{
-            adminData:viewData,
+        console.log(req.query.search)
+        var search='';
+        if(req.query.search){
+            search=req.query.search;
+        }
+        let viewData=await Admin.find({
+            $or:[
+                {name:{$regex:search, $options: 'i' }},
+                {email:{$regex:search, $options: 'i' }}
+            ]
         });
+        if(viewData){
+            return res.render('view_admin',{
+                adminData:viewData,
+                search:search
+            });
+        }else{
+            req.flash('error','something wrong');         
+            return res.redirect('back')
+        }
     }
     catch(err){
         console.log(err)      

@@ -5,6 +5,12 @@
   <div class="section__content section__content--p30">
     <div class="container-fluid">
       <div class="row">
+        <div class="col-md-4">
+          <form class="d-flex">
+            <input type="text" name="search" value="<%=search%>" class="form-control mb-4 border rounded pt-3" style="border-radius: 10px;">
+            <input type="submit" name="searching" value="search" class="form-control mb-4 bg-dark text-white" style="width: 200px;border-radius: 10px;">
+          </form>
+        </div>
       <form action="/admin/reception/del_multiple_appointments" method="post">
         <div class="col-lg-12">
           <div class="table-responsive table--no-card m-b-30">
