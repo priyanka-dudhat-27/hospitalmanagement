@@ -3,8 +3,9 @@ const routs=express.Router();
 const receptionController=require('../controllers/receptionController')
 const receptionModel=require('../models/receptionModel')
 
+
 routs.get('/',receptionController.login)
-routs.get('/dashboardReception',receptionController.dashboardReception)
+routs.get('/dashboardReception',receptionController.dashboardDoctor)
 routs.post('/signIn',receptionController.signIn);
 routs.get('/book_appointment',receptionController.book_appointment);
 routs.post('/add_appointment',receptionController.add_appointment);
