@@ -1,9 +1,26 @@
 const doctor_detailsModel = require("../models/doctor_detailsModel");
+const departmentModel=require('../models/departmentModel');
 const path = require("path");
 const fs = require("fs");
 
 module.exports.add_doctor = async (req, res) => {
-  return res.render("add_doctor");
+  try {
+    let departmentData=await departmentModel.find({status:true})
+    if(departmentData){
+      return res.render("add_doctor",{
+        departmentData:departmentData
+      });
+    }
+    else{
+      console.log(error)
+      req.flash("error","No department found");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }  
 };
 module.exports.insert_doctor = async (req, res) => {
   // console.log(req.body);

@@ -16,9 +16,9 @@ const doctor_detailsSchema=mongoose.Schema({
         type:String,
         required:true
     },
-    speciality:{
-        type:Array,
-        required:true
+    departmentId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Department"
     },
     email:{
         type:String,
