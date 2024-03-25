@@ -214,6 +214,37 @@
                                
                             </ul>
                         </li>
+
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-copy"></i>Contact us</a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+    
+                                <li>
+                                    <a href="/admin/contacts/view_contacts">
+                                        <i class="fas fa-table"></i>View Contacts</a>
+                                </li>
+                               
+                            </ul>
+                        </li>
+                       
+                          
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-copy"></i>Department</a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                          
+                                <li>
+                                    <a href="/admin/department/add_department">
+                                        <i class="far fa-check-square"></i>Add Department</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/department/view_department">
+                                        <i class="fas fa-table"></i>View Department</a>
+                                </li>
+                               
+                            </ul>
+                        </li>
                     
                     </ul>
                 </nav>
@@ -345,23 +376,23 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="<%=locals.admin.image%>" alt="<%=locals.admin.name%>" />
+                                            <img src="<%=locals.admin && locals.admin.image%>" alt="<%=locals.admin && locals.admin.name%>" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><%=locals.admin.name%></a>
+                                            <a class="js-acc-btn" href="#"><%=locals.admin && locals.admin.name%></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="<%=locals.admin.image%>" alt="<%=locals.admin.name%>" />
+                                                        <img src="<%=locals.admin && locals.admin.image%>" alt="<%=locals.admin && locals.admin.name%>" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#"><%=locals.admin.name%></a>
+                                                        <a href="#"><%=locals.admin && locals.admin.name%></a>
                                                     </h5>
-                                                    <span class="email"><%=locals.admin.email%></span>
+                                                    <span class="email"><%=locals.admin && locals.admin.email%></span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">

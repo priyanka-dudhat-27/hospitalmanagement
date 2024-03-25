@@ -32,12 +32,14 @@ routs.get('/logout',async(req,res)=>{
         if(err){
             console.log(err)
         }
-        return res.redirect('/admin')
+        return res.redirect('/main')
     })
 })
 
 // doctor
 routs.use('/doctor_details',passport.checkAuth,require('./doctor_details'))
 routs.use('/reception',passport.checkAuth,require('./reception'))
+routs.use('/contacts',passport.checkAuth,require('./contacts'))
+routs.use('/department',passport.checkAuth,require('./department'))
 
 module.exports=routs;

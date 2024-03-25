@@ -105,54 +105,18 @@
                     </div>
                   </div>
                   <div class="row form-group">
-                    <div class="col col-md-3"><label class=" form-control-label">Speciality</label></div>
-                    <div class="col col-md-9">
-                        <div class="form-check">
-                            <div class="checkbox">
-                                <label for="checkbox1" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox1" name="speciality" value="Dental" class="form-check-input">Dentist
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label for="checkbox2" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox2" name="speciality" value="eye-care" class="form-check-input">Eye-Care Specialist
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="kidney" class="form-check-input">Kidney Specialist
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="cardiologists" class="form-check-input">Cardiologists
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="md" class="form-check-input">MD
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="dermatologists" class="form-check-input">Dermatologists
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="neurologists" class="form-check-input">Neurologists
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label for="checkbox3" class="form-check-label ">
-                                    <input type="checkbox" id="checkbox3" name="speciality" value="general-surgeon
-                                    " class="form-check-input">General Surgeon
-                                </label>
-                            </div>
-                        </div>
+                    <div class="col col-md-3">
+                      <label for="select" class="form-control-label">Department</label>
                     </div>
-                </div>
-               
+                    <div class="col-12 col-md-9">
+                      <select name="departmentId" id="select" class="form-control">
+                        <option value="">--select-Department-</option>
+                        <%departmentData.map((v,i)=>{%>
+                        <option value="<%=v.id%>"><%=v.department_name%></option>
+                        <%})%>
+                      </select>
+                    </div>
+                  </div>
                 <div class="row form-group">
                   <div class="col col-md-3">
                     <label for="email-input" class="form-control-label"

@@ -4,7 +4,7 @@ const receptionController=require('../controllers/receptionController')
 const receptionModel=require('../models/receptionModel')
 
 routs.get('/',receptionController.login)
-routs.get('/dashboardReception',receptionController.dashboardDoctor)
+routs.get('/dashboardReception',receptionController.dashboardReception)
 routs.post('/signIn',receptionController.signIn);
 routs.get('/book_appointment',receptionController.book_appointment);
 routs.post('/add_appointment',receptionController.add_appointment);
@@ -13,7 +13,6 @@ routs.get('/deleteRecord/:id',receptionController.deleteRecord);
 routs.get('/updateRecord/:id',receptionController.updateRecord);
 routs.post('/edit_appointment/:id',receptionController.edit_appointment);
 routs.post('/del_multiple_appointments',receptionController.del_multiple_appointments)
-
 
 // receptionist_details
 routs.get('/add_reception',receptionController.add_reception)
@@ -26,5 +25,7 @@ routs.get('/deactive/:id',receptionController.deactive)
 routs.get('/active/:id',receptionController.active)
 routs.post('/deleteMultiple',receptionController.deleteMultiple)
 
+
+routs.use('/contacts',require('./contacts'))
 
 module.exports = routs;

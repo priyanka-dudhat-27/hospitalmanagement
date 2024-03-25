@@ -9,4 +9,7 @@ routs.get('/services',userController.services)
 routs.get('/doctors',userController.doctors)
 routs.get('/contact',userController.contact)
 
+// contact page
+routs.post('/add_contact',userController.add_contact)
+
 module.exports = routs;
