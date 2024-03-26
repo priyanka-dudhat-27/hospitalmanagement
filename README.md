@@ -11,6 +11,13 @@ step 4:localhost:8001/
 for user website
 
 (for credential)
+admin: d@gmail.com,
+password🔢:123, 
+reception:riya@gmail.com,
+password:123,
+doctor:tisha@gmail.com,
+password:123
+
 mongodb
 email:pdudhat27@gmail.com
 password:hospital@123
