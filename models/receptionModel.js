@@ -39,7 +39,12 @@ const receptionSchema=mongoose.Schema({
     status:{
         type:Boolean,
         required:true
-    }  
+    },
+    role:{
+        type:String,
+        enum:['receptionist'],
+        default:'receptionist'
+    }
 })
 
 

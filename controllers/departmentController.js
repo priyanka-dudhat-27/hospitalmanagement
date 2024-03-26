@@ -101,13 +101,13 @@ module.exports.view_department = async (req, res) => {
   module.exports.edit_department = async (req, res) => {
     try {
       await departmentModel.findByIdAndUpdate(req.params.id, req.body);
-      req.flash("success", "Record updated successfully");
+      req.flash("success", "Department updated successfully");
       return res.redirect("/admin/department/view_department");
-    } catch (err) {
+  } catch (err) {
       console.log(err);
-      req.flash("error", "something wrong");
+      req.flash("error", "Something went wrong");
       return res.redirect("back");
-    }
+  }
   };
   
   // status active-deactive

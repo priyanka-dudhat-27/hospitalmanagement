@@ -162,15 +162,15 @@
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-copy"></i>Reception</a>
+                                <i class="fas fa-copy"></i>Appointment</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                           
                                 <li>
-                                    <a href="/reception/book_appointment">
+                                    <a href="/admin/reception/book_appointment">
                                         <i class="far fa-check-square"></i>Book Appointment</a>
                                 </li>
                                 <li>
-                                    <a href="/reception/view_appointment">
+                                    <a href="/admin/reception/view_appointment">
                                         <i class="fas fa-table"></i>View Appointment</a>
                                 </li>
                                
@@ -319,32 +319,32 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="/images/logo.png" alt="john doe image" />
+                                            <img src="<%=locals.admin.image%>" alt="john doe image" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
+                                            <a class="js-acc-btn" href="#"><%=locals.admin.name%></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="#" alt="john doe image" />
+                                                        <img src="<%=locals.admin.image%>" alt="john doe image" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">john doe</a>
+                                                        <a href="#"><%=locals.admin.name%></a>
                                                     </h5>
-                                                    <span class="email">john doe@gmail.com</span>
+                                                    <span class="email"><%=locals.admin.email%></span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="/admin/profile">
+                                                    <a href="/admin/reception/profile">
                                                         <i class="zmdi zmdi-account"></i>My Profile</a>
                                                 </div>
                                                 <div class="account-dropdown__item">
-                                                    <a href="/admin/changePass">
+                                                    <a href="/admin/reception/changePass">
                                                         <i class="zmdi zmdi-settings"></i>Change Password</a>
                                                 </div>
                                             </div>

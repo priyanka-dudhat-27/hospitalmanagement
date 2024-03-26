@@ -1,16 +1,34 @@
 const appointmentModel = require("../models/appointmentModel");
 const receptionModel = require("../models/receptionModel");
+const contactModel = require("../models/contactModel");
 const path = require("path");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
+
 module.exports.login = async (req, res) => {
-  return res.render("loginReception");
+  try {
+    if (req.isAuthenticated()) {
+      return res.redirect("/reception/dashboardReception");
+    }
+    return res.render("loginReception");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+  }
 };
 module.exports.dashboardDoctor = async (req, res) => {
   try {
     let appointmentData = await appointmentModel.find().countDocuments();
+    let receptionData = await receptionModel.find().countDocuments();
+    let contactData = await contactModel.find().countDocuments();
 
+    if (!req.isAuthenticated()) {
+      return res.redirect("/reception/");
+    }
     return res.render("dashboardReception", {
       appointmentData: appointmentData,
+      receptionData: receptionData,
+      contactData:contactData
     });
   } catch (err) {
     console.log(err);
@@ -20,18 +38,13 @@ module.exports.dashboardDoctor = async (req, res) => {
 };
 module.exports.signIn = async (req, res) => {
   try {
-    let checkEmail = await receptionModel.findOne({ email: req.body.email });
-    if (checkEmail) {
-      if (checkEmail.password == req.body.password) {
-        req.flash("success", "Login successfully");
-        return res.redirect("/reception/dashboardReception");
-      } else {
-        req.flash("error", "Wrong password");
-        return res.redirect("back");
-      }
+    // console.log(req.user)
+    if (req.user) {
+      req.flash("success", "Login Successfully");
+      return res.redirect("/reception/dashboardReception");
     } else {
-      req.flash("error", "Wrong Email");
-      return res.redirect("back");
+      req.flash("error", "Invalid Credential");
+      return res.render("logInReception");
     }
   } catch (err) {
     console.log(err);
@@ -73,19 +86,19 @@ module.exports.add_appointment = async (req, res) => {
 
 module.exports.view_appointment = async (req, res) => {
   try {
-     // console.log(req.query.page);
-     var page = 0;
-     var per_page = 5;
+    // console.log(req.query.page);
+    var page = 0;
+    var per_page = 5;
     // console.log(req.query.search)
     var search = "";
     if (req.query.search) {
       search = req.query.search;
     }
-    let allRecord = await Admin.find({
+    let allRecord = await appointmentModel.find({
       $or: [
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
-      ]
+      ],
     }).countDocuments();
     let totalpage = Math.ceil(allRecord / per_page);
     console.log(totalpage);
@@ -94,19 +107,20 @@ module.exports.view_appointment = async (req, res) => {
       page = req.query.page;
     }
 
-    let viewData = await appointmentModel.find({
-      $or: [
-        { name: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } },
-      ],
-    })
-    .skip(page * per_page)
-    .limit(per_page)
+    let viewData = await appointmentModel
+      .find({
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+        ],
+      })
+      .skip(page * per_page)
+      .limit(per_page);
 
     if (viewData) {
       return res.render("view_appointment", {
         appointmentData: viewData,
-        search:search,
+        search: search,
         totalpage: totalpage,
         currentPage: page,
         per_page: per_page,
@@ -206,20 +220,22 @@ module.exports.insert_reception_details = async (req, res) => {
 
 module.exports.view_reception = async (req, res) => {
   try {
-     // console.log(req.query.page);
-     var page = 0;
-     var per_page = 5;
+    // console.log(req.query.page);
+    var page = 0;
+    var per_page = 5;
     // console.log(req.query.search)
     var search = "";
     if (req.query.search) {
       search = req.query.search;
     }
-    let allRecord = await receptionModel.find({
-      $or: [
-        { name: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } },
-      ]
-    }).countDocuments();
+    let allRecord = await receptionModel
+      .find({
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+        ],
+      })
+      .countDocuments();
     let totalpage = Math.ceil(allRecord / per_page);
     console.log(totalpage);
 
@@ -227,19 +243,20 @@ module.exports.view_reception = async (req, res) => {
       page = req.query.page;
     }
 
-    let viewData = await receptionModel.find({
-      $or:[
-        {name:{$regex:search, $options: 'i' }},
-        {email:{$regex:search, $options: 'i' }}
-    ]
-    }) 
-    .skip(page * per_page)
-    .limit(per_page)
+    let viewData = await receptionModel
+      .find({
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+        ],
+      })
+      .skip(page * per_page)
+      .limit(per_page);
 
     if (viewData) {
       return res.render("view_reception", {
         receptionData: viewData,
-        search:search,
+        search: search,
         totalpage: totalpage,
         currentPage: page,
         per_page: per_page,
@@ -280,7 +297,7 @@ module.exports.deleteRecord = async (req, res) => {
   }
 };
 
-module.exports.updateRecord = async (req, res) => {
+module.exports.updateData = async (req, res) => {
   try {
     let singleData = await receptionModel.findById(req.params.id);
     return res.render("edit_reception", {
@@ -392,6 +409,188 @@ module.exports.del_multiple_appointments = async (req, res) => {
       return res.redirect("back");
     } else {
       req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
+module.exports.profile = async (req, res) => {
+  try {
+    // console.log(req.user);
+    return res.render("profile_admin", {
+      receptionData: req.user,
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
+module.exports.changePass = async (req, res) => {
+  try {
+    return res.render("changePass_reception");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+  }
+};
+
+module.exports.resetReceptionPass = async (req, res) => {
+  try {
+    // console.log(req.body);
+    if (req.body.cpass == req.user.password) {
+      if (req.body.cpass != req.body.npass) {
+        if (req.body.npass == req.body.conpass) {
+          let changed = await receptionModel.findByIdAndUpdate(req.user.id, {
+            password: req.body.npass,
+          });
+          if (changed) {
+            req.flash("success", "Password Changed Successfully");
+            return res.redirect("/admin/logout");
+          } else {
+            req.flash("error", "Password not change");
+            return res.redirect("back");
+          }
+        } else {
+          req.flash("error", "New and confirm password not same");
+          return res.redirect("back");
+        }
+      } else {
+        req.flash("error", "Current and New password are same");
+        return res.redirect("back");
+      }
+    } else {
+      req.flash("error", "db password not match");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+// forget password logic
+
+module.exports.forgetPass = async (req, res) => {
+  try {
+    return res.render("forgetPass_reception");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
+module.exports.checkEmailForget = async (req, res) => {
+  try {
+    console.log(req.body);
+    let checkEmail = await receptionModel.findOne({ email: req.body.email });
+    if (checkEmail) {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.GMAIL.COM",
+        port: 465,
+        secure: true,
+        auth: {
+          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+          user: "pdudhat27@gmail.com",
+          pass: "mwfmuosjsoikcgmh",
+        },
+      });
+
+      var otp = Math.round(Math.random() * 10000);
+      req.session.otp = otp;
+      req.session.email = req.body.email;
+      var msg = `<h1>RnW inbstitute: <b>otp:${otp}</b></h1>`;
+      const info = await transporter.sendMail({
+        from: "pdudhat27@gmail.com", // sender address
+        to: req.body.email, // list of receivers
+        subject: "Your OTP is Here", // Subject line
+        text: "Hello world?", // plain text body
+        html: msg,
+        otp, // html body
+      });
+      return res.redirect("/admin/reception/checkOTP");
+    } else {
+      req.flash("error", "Invalid Email");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+module.exports.checkOTP = async (req, res) => {
+  try {
+    return res.render("checkOtp_reception");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+module.exports.verifyOtp = async (req, res) => {
+  console.log(req.body);
+  // console.log(req.user.otp);
+  try {
+    if (req.body.otp == req.session.otp) {
+      return res.redirect("/admin/reception/receptionChangePassword");
+    } else {
+      req.flash("error", "OTP not match");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+module.exports.receptionChangePassword = async (req, res) => {
+  try {
+    return res.render("changePasswordReception");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
+module.exports.resetPass = async (req, res) => {
+  try {
+    console.log(req.body.npass);
+    console.log(req.body.conpass);
+
+    // Retrieve email from session
+    var email = req.session.email;
+    console.log(email);
+
+    if (req.body.npass == req.body.conpass) {
+      let checkEmail = await receptionModel.findOne({ email: email });
+      if (checkEmail) {
+        let changePass = await receptionModel.findByIdAndUpdate(checkEmail._id, {
+          password: req.body.npass,
+        });
+
+        if (changePass) {
+          req.session.destroy(function (err) {
+            if (err) {
+              console.log(err);
+              req.flash("error", "something wrong");
+            }
+            return res.redirect("/reception");
+          });
+        }
+      } else {
+        req.flash("error", "Invalid Email");
+        return res.redirect("back");
+      }
+    } else {
+      req.flash("success", "Password has been changed Successfully");
       return res.redirect("back");
     }
   } catch (err) {

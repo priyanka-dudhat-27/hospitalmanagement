@@ -2,6 +2,8 @@ const doctor_detailsModel = require("../models/doctor_detailsModel");
 const departmentModel=require('../models/departmentModel');
 const path = require("path");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
+
 
 module.exports.add_doctor = async (req, res) => {
   try {
@@ -144,6 +146,7 @@ module.exports.deleteRecord = async (req, res) => {
 module.exports.updateRecord = async (req, res) => {
   try {
     let singleData = await doctor_detailsModel.findById(req.params.id);
+    console.log(singleData)
     return res.render("edit_doctor", {
       singleData: singleData,
     });
@@ -241,3 +244,187 @@ module.exports.deleteMultiple = async (req, res) => {
     return res.redirect("back");
   }
 };
+// profile
+
+module.exports.profile = async (req, res) => {
+  try {
+    // console.log(req.user);
+    return res.render("profile_doctor", {
+      doctorData: req.user,
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+module.exports.changePass = async (req, res) => {
+  try {
+    return res.render("changePass_doctor");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+  }
+};
+
+module.exports.resetDoctorPass = async (req, res) => {
+  try {
+    // console.log(req.body);
+    if (req.body.cpass == req.user.password) {
+      if (req.body.cpass != req.body.npass) {
+        if (req.body.npass == req.body.conpass) {
+          let changed = await doctor_detailsModel.findByIdAndUpdate(req.user.id, {
+            password: req.body.npass,
+          });
+          if (changed) {
+            req.flash("success", "Password Changed Successfully");
+            return res.redirect("/admin/logout");
+          } else {
+            req.flash("error", "Password not change");
+            return res.redirect("back");
+          }
+        } else {
+          req.flash("error", "New and confirm password not same");
+          return res.redirect("back");
+        }
+      } else {
+        req.flash("error", "Current and New password are same");
+        return res.redirect("back");
+      }
+    } else {
+      req.flash("error", "db password not match");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
+// forget password logic
+
+module.exports.forgetPass = async (req, res) => {
+  try {
+    return res.render("forgetPass_doctor");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
+module.exports.checkEmailForget = async (req, res) => {
+  try {
+    console.log(req.body);
+    let checkEmail = await doctor_detailsModel.findOne({ email: req.body.email });
+    if (checkEmail) {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.GMAIL.COM",
+        port: 465,
+        secure: true,
+        auth: {
+          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+          user: "pdudhat27@gmail.com",
+          pass: "mwfmuosjsoikcgmh",
+        },
+      });
+
+      var otp = Math.round(Math.random() * 10000);
+      req.session.otp = otp;
+      req.session.email = req.body.email;
+      var msg = `<h1>RnW inbstitute: <b>otp:${otp}</b></h1>`;
+      const info = await transporter.sendMail({
+        from: "pdudhat27@gmail.com", // sender address
+        to: req.body.email, // list of receivers
+        subject: "Your OTP is Here", // Subject line
+        text: "Hello world?", // plain text body
+        html: msg,
+        otp, // html body
+      });
+      return res.redirect("/admin/doctor_details/checkOTP");
+    } else {
+      req.flash("error", "Invalid Email");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+module.exports.checkOTP = async (req, res) => {
+  try {
+    return res.render("checkOtp_doctor");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+module.exports.verifyOtp = async (req, res) => {
+  console.log(req.body);
+  // console.log(req.user.otp);
+  try {
+    if (req.body.otp == req.session.otp) {
+      return res.redirect("/admin/doctor_details/doctorChangePassword");
+    } else {
+      req.flash("error", "OTP not match");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+module.exports.doctorChangePassword = async (req, res) => {
+  try {
+    return res.render("changePasswordDoctor");
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
+module.exports.resetPass = async (req, res) => {
+  try {
+    console.log(req.body.npass);
+    console.log(req.body.conpass);
+
+    // Retrieve email from session
+    var email = req.session.email;
+    console.log(email);
+
+    if (req.body.npass == req.body.conpass) {
+      let checkEmail = await doctor_detailsModel.findOne({ email: email });
+      if (checkEmail) {
+        let changePass = await doctor_detailsModel.findByIdAndUpdate(checkEmail._id, {
+          password: req.body.npass,
+        });
+
+        if (changePass) {
+          req.session.destroy(function (err) {
+            if (err) {
+              console.log(err);
+              req.flash("error", "something wrong");
+            }
+            return res.redirect("/doctor");
+          });
+        }
+      } else {
+        req.flash("error", "Invalid Email");
+        return res.redirect("back");
+      }
+    } else {
+      req.flash("success", "Password has been changed Successfully");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+
