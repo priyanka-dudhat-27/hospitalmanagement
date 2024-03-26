@@ -14,7 +14,6 @@ routs.post('/edit_doctor/:id',passport.checkAuth,doctor_detailsModel.uploadImage
 routs.get('/deactive/:id',passport.checkAuth,doctor_detailsController.deactive)
 routs.get('/active/:id',passport.checkAuth,doctor_detailsController.active)
 routs.post('/deleteMultiple',passport.checkAuth,doctor_detailsController.deleteMultiple)
-routs.get('/profile',passport.checkAuth,doctor_detailsController.profile);
 routs.get('/changePass',passport.checkAuth,doctor_detailsController.changePass);
 routs.post('/resetDoctorPass',passport.checkAuth,doctor_detailsController.resetDoctorPass);
 routs.get('/forgetPass',doctor_detailsController.forgetPass);

@@ -80,7 +80,7 @@ module.exports.view_doctor = async (req, res) => {
       ],
     })
     .skip(page * per_page)
-    .limit(per_page)
+    .limit(per_page).populate('departmentId').exec()
 
     if (viewData) {
       return res.render("view_doctor", {
@@ -103,6 +103,7 @@ module.exports.view_doctor = async (req, res) => {
 module.exports.profile = async (req, res) => {
   try {
     // console.log(req.params.id);
+  
     let singleData = await doctor_detailsModel.findById(req.params.id);
     if (singleData) {
       return res.render("profile_doctor", {
@@ -244,20 +245,7 @@ module.exports.deleteMultiple = async (req, res) => {
     return res.redirect("back");
   }
 };
-// profile
 
-module.exports.profile = async (req, res) => {
-  try {
-    // console.log(req.user);
-    return res.render("profile_doctor", {
-      doctorData: req.user,
-    });
-  } catch (err) {
-    console.log(err);
-    req.flash("error", "something wrong");
-    return res.redirect("back");
-  }
-};
 module.exports.changePass = async (req, res) => {
   try {
     return res.render("changePass_doctor");

@@ -15,7 +15,7 @@ module.exports.view_contacts = async (req, res) => {
         $or: [
           { name: { $regex: search, $options: "i" } },
           { email: { $regex: search, $options: "i" } },
-        ],
+          { status: (search === "true" || search === "false") ? JSON.parse(search) : null },        ],
       })
       .countDocuments();
     let totalpage = Math.ceil(allRecord / per_page);
@@ -30,6 +30,7 @@ module.exports.view_contacts = async (req, res) => {
         $or: [
           { name: { $regex: search, $options: "i" } },
           { email: { $regex: search, $options: "i" } },
+          { status: (search === "true" || search === "false") ? JSON.parse(search) : null },
         ],
       })
       .skip(page * per_page)

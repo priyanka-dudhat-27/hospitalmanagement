@@ -12,6 +12,7 @@
               value="<%=search%>"
               class="form-control mb-4 border rounded pt-3"
               style="border-radius: 10px"
+              placeholder="Enter name or email or true/false"
             />
             <input
               type="submit"
@@ -66,7 +67,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <%var no=1%> <%for(let ad of contactData){%>
+                  <%var no=currentPage*per_page+1%> <%for(let ad of contactData){%>
                   <tr>
                     <td>
                       <input

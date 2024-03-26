@@ -100,9 +100,14 @@ module.exports.view_department = async (req, res) => {
   };
   module.exports.edit_department = async (req, res) => {
     try {
-      await departmentModel.findByIdAndUpdate(req.params.id, req.body);
-      req.flash("success", "Department updated successfully");
-      return res.redirect("/admin/department/view_department");
+      let departData=await departmentModel.findByIdAndUpdate(req.params.id, req.body);
+      if (departData) {
+        req.flash("success", "Department updated successfully");
+        return res.redirect("/admin/department/view_department");
+      }else{
+        req.flash("error", "Something went wrong");
+        return res.redirect("back");
+      }
   } catch (err) {
       console.log(err);
       req.flash("error", "Something went wrong");

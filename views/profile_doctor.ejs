@@ -7,42 +7,39 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="table-responsive table--no-card m-b-30">
-            <table class="table table-borderless table-striped table-earning  text-capitalize h5 ">
+            <table class="table table-borderless table-striped table-earning  h5 ">
               <tbody>
                     <tr>
-                       <td colspan="2"><img src="<%=doctorData.image%>" class="rounded-circle" width="400" height="400" alt=""></td> 
+                       <td colspan="2"><img src="<%=singleData.image%>" class="rounded-circle" width="400" height="400" alt=""></td> 
                     
                     </tr>
                     <tr>
                         <td style="width:20px">Name</td>
-                        <td style="width: 20px;"><%=doctorData.name%></td>
-                    </tr>
-                    <tr>
-                        <td>Speciality</td>
-                        <td><%=doctorData.departmentId%></td>
+                        <td style="width: 20px;text-transform: capitalize;"><%=singleData.name%></td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td><a href="https://www.gmail.com"><%=doctorData.email%></a></td>
+                        <td><a href="https://www.gmail.com"><%=singleData.email%></a></td>
                     </tr>
                     <tr>
                         <td>Phone</td>
-                        <td><%=doctorData.phone%></td>
+                        <td><%=singleData.phone%></td>
                     </tr>
                     <tr>
                         <td>Gender</td>
-                        <td><%=doctorData.gender%></td>
+                        <td style="text-transform: capitalize;"><%=singleData.gender%></td>
                     </tr>
                      <tr>
                         <td>Date of Birth</td>
-                        <td><%=doctorData.dob%></td>
+                        <td><%=singleData.dob%></td>
                     </tr>
                     <tr>
                         <td>city</td>
-                        <td><%=doctorData.city%></td>
+                        <td style="text-transform: capitalize;"><%=singleData.city%></td>
                     </tr>
                     <tr>
-                        <td><a href="/admin/doctor_details/updateRecord/<%=doctorData.id%>" class="btn btn-success">Edit Profile</a></td>
+                      <td></td>
+                        <td><a href="/admin/doctor_details/updateRecord/<%=singleData.id%>" class="btn btn-success">Edit Profile</a></td>
                     </tr>
               </tbody>
             </table>
