@@ -102,19 +102,12 @@ module.exports.view_doctor = async (req, res) => {
 };
 module.exports.profile = async (req, res) => {
   try {
-    // console.log(req.params.id);
-  
-    let singleData = await doctor_detailsModel.findById(req.params.id);
-    if (singleData) {
-      return res.render("profile_doctor", {
-        singleData: singleData,
-      });
-    } else {
-      req.flash("error", "profile not found");
-      return res.redirect("back");
-    }
+  // console.log(req.user);
+    return res.render("profile_doctor", {
+      singleData: req.user,
+    });
   } catch (err) {
-    console.log(err);
+    console.log(err)
     req.flash("error", "something wrong");
     return res.redirect("back");
   }

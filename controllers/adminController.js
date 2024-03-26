@@ -9,8 +9,10 @@ const ROLES = require('../config/constants');
 
 module.exports.login = async (req, res) => {
   try {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated()){
+      if(req.user.role===ROLES.ADMIN){
       return res.redirect("/admin/dashboard");
+      }
     }
     return res.render("login");
   } catch (err) {
@@ -39,16 +41,18 @@ module.exports.dashboard = async (req, res) => {
   let receptionData = await receptionModel.find().countDocuments();
   let appointmentData = await appointmentModel.find().countDocuments();
 
-  if (!req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === 'admin') {
+    return res.render("dashboard", {
+      adminData: adminData,
+      doctorData: doctorData,
+      receptionData: receptionData,
+      appointmentData: appointmentData,
+    });
+  }else{
+    req.flash("error", "admin not exist");
     return res.redirect("/admin/");
   }
-  
-  return res.render("dashboard", {
-    adminData: adminData,
-    doctorData: doctorData,
-    receptionData: receptionData,
-    appointmentData: appointmentData,
-  });
+
 };
 module.exports.add_admin = async (req, res) => {
   try {
@@ -131,7 +135,7 @@ module.exports.view_admin = async (req, res) => {
       });
     } else {
       req.flash("error", "something wrong");
-      return res.redirect("back");
+      return res.redirect("/main");
     }
   } catch (err) {
     console.log(err);

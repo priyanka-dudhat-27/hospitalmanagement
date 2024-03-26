@@ -7,7 +7,7 @@ const passport=require('passport');
 routs.get('/add_doctor',passport.checkAuth,doctor_detailsController.add_doctor)
 routs.post('/insert_doctor',passport.checkAuth,doctor_detailsModel.uploadImage,doctor_detailsController.insert_doctor)
 routs.get('/view_doctor',passport.checkAuth,doctor_detailsController.view_doctor)
-routs.get('/profile/:id',passport.checkAuth,doctor_detailsController.profile)
+routs.get('/profile',passport.checkAuth,doctor_detailsController.profile)
 routs.get('/deleteRecord/:id',passport.checkAuth,doctor_detailsController.deleteRecord)
 routs.get('/updateRecord/:id',passport.checkAuth,doctor_detailsController.updateRecord)
 routs.post('/edit_doctor/:id',passport.checkAuth,doctor_detailsModel.uploadImage,doctor_detailsController.edit_doctor)

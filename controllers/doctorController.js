@@ -1,10 +1,13 @@
 const doctor_detailsModel = require("../models/doctor_detailsModel");
 const passport = require("passport");
+const ROLES=require('../config/constants')
 
 module.exports.login = async (req, res) => {
   try {
     if (req.isAuthenticated()) {
-      return res.redirect("/doctor/dashboardDoctor");
+      if(req.user.role===ROLES.DOCTOR){
+        return res.redirect("/doctor/dashboardDoctor");
+      }
     }
     return res.render("loginDoctor");
   } catch (err) {
@@ -18,12 +21,15 @@ module.exports.dashboardDoctor = async (req, res) => {
     let doctorData = await doctor_detailsModel.find();
     // console.log(doctorData);
 
-    if (!req.isAuthenticated()) {
-      return res.redirect("/doctor/");
+    if (req.isAuthenticated() && req.user.role === 'doctor' ) {
+      return res.render("dashboardDoctor", {
+        doctorData: doctorData,
+        doctorData: req.user,
+
+      });
+    } else {
+      return res.redirect("/main");
     }
-    return res.render("dashboardDoctor", {
-      doctorData: doctorData,
-    });
   } catch (err) {
     console.log(err);
     req.flash("error", "something wrong");
@@ -47,14 +53,14 @@ module.exports.signIn = async (req, res) => {
   }
 };
 module.exports.profile = async (req, res) => {
-    try {
-      // console.log(req.user);
-      return res.render("profile_doctor", {
-        doctorData: req.user,
-      });
-    } catch (err) {
-      console.log(err);
-      req.flash("error", "something wrong");
-      return res.redirect("back");
-    }
-  };
+  try {
+    // console.log(req.user);
+    return res.render("profile_doctor", {
+      doctorData: req.user,
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};

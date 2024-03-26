@@ -4,16 +4,20 @@ const contactModel = require("../models/contactModel");
 const path = require("path");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
+const ROLES=require("../config/constants")
 
 module.exports.login = async (req, res) => {
   try {
     if (req.isAuthenticated()) {
-      return res.redirect("/reception/dashboardReception");
+      if(req.user.role===ROLES.RECEPTIONIST){
+        return res.redirect("/reception/dashboardReception");
+      }
     }
     return res.render("loginReception");
   } catch (err) {
     console.log(err);
     req.flash("error", "something wrong");
+    return res.redirect("back");
   }
 };
 module.exports.dashboardDoctor = async (req, res) => {
@@ -22,14 +26,16 @@ module.exports.dashboardDoctor = async (req, res) => {
     let receptionData = await receptionModel.find().countDocuments();
     let contactData = await contactModel.find().countDocuments();
 
-    if (!req.isAuthenticated()) {
-      return res.redirect("/reception/");
+    if (req.isAuthenticated() && req.user.role =='receptionist') {
+      return res.render("dashboardReception", {
+        appointmentData: appointmentData,
+        receptionData: receptionData,
+        contactData:contactData
+      });
+    }else{
+      return res.redirect("/main");
     }
-    return res.render("dashboardReception", {
-      appointmentData: appointmentData,
-      receptionData: receptionData,
-      contactData:contactData
-    });
+    
   } catch (err) {
     console.log(err);
     req.flash("error", "something wrong");
@@ -421,7 +427,7 @@ module.exports.del_multiple_appointments = async (req, res) => {
 module.exports.profile = async (req, res) => {
   try {
     // console.log(req.user);
-    return res.render("profile_admin", {
+    return res.render("profile_reception", {
       receptionData: req.user,
     });
   } catch (err) {
