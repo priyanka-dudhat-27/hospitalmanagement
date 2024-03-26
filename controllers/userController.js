@@ -43,7 +43,7 @@ module.exports.services=async(req,res)=>{
 }
 module.exports.doctors=async(req,res)=>{
     try {
-        let doctorData=await doctor_detailsModel.find();
+        let doctorData=await doctor_detailsModel.find().populate('departmentId').exec();
         let departmentData=await departmentModel.find();
         return res.render('userpanel/doctors',{
             doctorData:doctorData,
