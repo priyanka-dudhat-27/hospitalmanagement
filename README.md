@@ -16,26 +16,26 @@ email:pdudhat27@gmail.com
 password:hospital@123
 projectname:hospitalmanagement
 
-authentication: passport-local /express-session
-upload image: multer
-send mail: nodemailer
-current date: moment js
+authentication: passport-local /express-session,
+upload image: multer,
+send mail: nodemailer,
+current date: moment js,
 
 functionality
-first create any role with your email
+first create any role with your email,
 1)in login page : forgot password
-                receive otp on your email
-2)click on my profile for edit/update/view
+                receive otp on your email,
+2)click on my profile for edit/update/view,
 
-3)change password
+3)change password,
 
-4)logout
+4)logout,
 
 5)from user website=> localhost:8001/
 contact us=> receive email on entered email
-view contact in admin panel
+view contact in admin panel,
 
-admin panel ,record add/delete/update/view /multiple delete/ active-deactive/pagination/searching
+admin panel ,record add/delete/update/view /multiple delete/ active-deactive/pagination/searching,
 
 userwebsite dynamic in progress/appointment in progress
                 
