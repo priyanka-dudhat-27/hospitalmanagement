@@ -39,6 +39,11 @@ const adminSchema=mongoose.Schema({
     status:{
         type:Boolean,
         required:true
+    },
+    role:{
+        type:String,
+        enum:['admin'],
+        default:'admin'
     }
 })
 

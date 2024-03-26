@@ -59,7 +59,7 @@ module.exports.deleteRecord = async (req, res) => {
       let delData = await contactModel.findByIdAndDelete(req.params.id);
       if (delData) {
         req.flash("success", "Record deleted successfully");
-        return res.redirect("/contacts/view_contacts");
+        return res.redirect("/admin/contacts/view_contacts");
       } else {
         req.flash("error", "something wrong");
         return res.redirect("back");

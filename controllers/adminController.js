@@ -1,11 +1,17 @@
 const Admin = require("../models/adminModel");
 const doctorModel = require("../models/doctor_detailsModel");
 const appointmentModel = require("../models/appointmentModel");
+const receptionModel=require('../models/receptionModel');
 const path = require("path");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
+const ROLES = require('../config/constants');
+
 module.exports.login = async (req, res) => {
   try {
+    if (req.isAuthenticated()) {
+      return res.redirect("/admin/dashboard");
+    }
     return res.render("login");
   } catch (err) {
     console.log(err);
@@ -30,9 +36,13 @@ module.exports.signIn = async (req, res) => {
 module.exports.dashboard = async (req, res) => {
   let adminData = await Admin.find().countDocuments();
   let doctorData = await doctorModel.find().countDocuments();
-  let receptionData = await Admin.find().countDocuments();
+  let receptionData = await receptionModel.find().countDocuments();
   let appointmentData = await appointmentModel.find().countDocuments();
 
+  if (!req.isAuthenticated()) {
+    return res.redirect("/admin/");
+  }
+  
   return res.render("dashboard", {
     adminData: adminData,
     doctorData: doctorData,
@@ -60,10 +70,11 @@ module.exports.insert_adminData = async (req, res) => {
     req.body.name = req.body.fname + " " + req.body.lname;
     req.body.image = img;
     req.body.status = true;
+    req.body.role = ROLES.ADMIN; // Set the role to 'admin'
+
 
     let adminData = await Admin.create(req.body);
     if (adminData) {
-      // console.log('record inserted successfully');
       req.flash("success", "admin record added successfully");
       return res.redirect("/admin/view_admin");
     } else {
@@ -92,7 +103,7 @@ module.exports.view_admin = async (req, res) => {
       $or: [
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
-      ]
+      ],
     }).countDocuments();
     let totalpage = Math.ceil(allRecord / per_page);
     console.log(totalpage);
@@ -105,7 +116,7 @@ module.exports.view_admin = async (req, res) => {
       $or: [
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
-      ]
+      ],
     })
       .skip(page * per_page)
       .limit(per_page);
@@ -193,9 +204,16 @@ module.exports.edit_admin = async (req, res) => {
 };
 
 module.exports.profile = async (req, res) => {
-  return res.render("profile_admin", {
-    adminData: req.user,
-  });
+  try {
+  // console.log(req.user);
+    return res.render("profile_admin", {
+      adminData: req.user,
+    });
+  } catch (err) {
+    console.log(err)
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
 };
 
 // change password
@@ -319,7 +337,7 @@ module.exports.verifyOtp = async (req, res) => {
 };
 module.exports.adminChangePassword = async (req, res) => {
   try {
-    return res.render("adminChangePassword");
+    return res.render("changePasswordAdmin");
   } catch (err) {
     console.log(err);
     req.flash("error", "something wrong");

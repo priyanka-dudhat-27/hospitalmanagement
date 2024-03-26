@@ -43,6 +43,11 @@ const doctor_detailsSchema=mongoose.Schema({
     status:{
         type:Boolean,
         req:true
+    },
+    role:{
+        type:String,
+        enum:['doctor'],
+        default:'doctor'
     }
 })
 

@@ -306,32 +306,32 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="/images/logo.png" alt="john doe image" />
+                                            <img src="<%=locals.admin.image%>" alt="john doe image" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
+                                            <a class="js-acc-btn" href="#"><%=locals.admin.name%></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="#" alt="john doe image" />
+                                                        <img src="<%=locals.admin.image%>" alt="john doe image" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">john doe</a>
+                                                        <a href="#"><%=locals.admin.name%></a>
                                                     </h5>
-                                                    <span class="email"></span>
+                                                    <span class="email"><%=locals.admin.email%></span>
                                                 </div>
-                                            </div>john doe@gmail.com
+                                            </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="/admin/profile">
+                                                    <a href="/admin/doctor_details/profile">
                                                         <i class="zmdi zmdi-account"></i>My Profile</a>
                                                 </div>
                                                 <div class="account-dropdown__item">
-                                                    <a href="/admin/changePass">
+                                                    <a href="/admin/doctor_details/changePass">
                                                         <i class="zmdi zmdi-settings"></i>Change Password</a>
                                                 </div>
                                             </div>

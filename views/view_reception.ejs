@@ -56,7 +56,7 @@
                         </td>
                         <td><%=no++%></td>
                         <td>
-                            <img src="<%=ad.image%>" alt="">
+                            <img src="<%=ad.image%>" width="100px" alt="">
                         </td>
                         <td><%=ad.name%></td>
                         <td><%=ad.email%></td>
@@ -75,7 +75,7 @@
 
                         <td>
                             <a href="/admin/reception/deleteRecord/<%=ad.id%>" style="color: red;"><i class="fa fa-trash"></i></a>  ||
-                            <a href="/admin/reception/updateRecord/<%=ad.id%>" style="color:blue;"><i class="fa fa-edit"></i></a>  
+                            <a href="/admin/reception/updateData/<%=ad.id%>" style="color:blue;"><i class="fa fa-edit"></i></a>  
                         </td>   
                     </tr>
                 <%}%>   
