@@ -42,7 +42,7 @@
 			  <%for (var ad of departmentData){%>
 
 	          <label class="btn ">
-	            <input type="radio" name="shuffle-filter" value="<%ad.id%>" /><%=ad.department_name%>
+	            <input type="radio" name="shuffle-filter" value="<%=ad.id%>" /><%=ad.department_name%>
 	          </label>
 
 			  <%}%>
@@ -52,7 +52,7 @@
 
      <div class="row shuffle-wrapper portfolio-gallery">
 		<%for(var sd of doctorData){%>
-			<div class="col-lg-3 col-sm-6 col-md-6 shuffle-item " data-groups="[&quot;cat1&quot;,&quot;cat2&quot;]">
+			<div class="col-lg-3 col-sm-6 col-md-6 shuffle-item " data-groups="[&quot;<%=sd.departmentId.id	%>&quot;]">
 	      	<div class="position-relative doctor-inner-box ">
 		        <div class="doctor-profile">
 	               <div class="doctor-img">
