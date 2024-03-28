@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-lg-6">
           <div class="card">
-            <div class="card-header"><strong>Book Appointment</strong></div>
+            <div class="card-header"><strong>Edit Appointment</strong></div>
             <div class="card-body card-block">
 
                 <% var fullName=appointmentData.name.split(' ')%>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="row form-group">
                     <div class="col col-md-3">
-                      <label for="email-input" class="form-control-label"
+                      <label for="date-input" class="form-control-label"
                         >Date of Birth</label
                       >
                     </div>
@@ -62,7 +62,7 @@
                         type="date"
                         name="dob"
                         value="<%=appointmentData.dob%>"
-                        id="email-input"
+                        id="date-input"
                         placeholder="Date of Birth"
                         class="form-control"
                       />

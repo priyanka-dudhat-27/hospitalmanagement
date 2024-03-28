@@ -7,9 +7,9 @@ const passport=require('passport');
 routs.get('/',receptionController.login)
 routs.get('/dashboardReception',passport.checkAuth,receptionController.dashboardDoctor)
 routs.post('/signIn',passport.authenticate('local', { failureRedirect: '/reception/' ,failureFlash:true}),receptionController.signIn);
-routs.get('/book_appointment',receptionController.book_appointment);
-routs.post('/add_appointment',receptionController.add_appointment);
-routs.get('/view_appointment',receptionController.view_appointment);
+routs.get('/book_appointment',passport.checkAuth,receptionController.book_appointment);
+routs.post('/add_appointment',passport.checkAuth,receptionController.add_appointment);
+routs.get('/view_appointment',passport.checkAuth,receptionController.view_appointment);
 routs.get('/deleteRecord/:id',receptionController.deleteRecord);
 routs.get('/updateRecord/:id',receptionController.updateRecord);
 routs.post('/edit_appointment/:id',receptionController.edit_appointment);

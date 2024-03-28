@@ -1,3 +1,6 @@
+// live link:
+// https://hospitalmanagement-ck74.onrender.com/doctors
+
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv').config();

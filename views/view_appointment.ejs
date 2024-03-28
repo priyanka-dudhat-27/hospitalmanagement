@@ -57,14 +57,12 @@
                     </th>
                     <th>No</th>
                     <th>Name</th>
-                    <th>DOB</th>
-                    <th>Gender</th>
-                    <th>Service</th>
-                    <th>Date</th>
+                    <th>Appointment_Date</th>
                     <th>Time</th>
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Message</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -80,15 +78,28 @@
                     </td>
                     <td><%=no++%></td>
                     <td><%=ad.name%></td>
-                    <td><%=ad.dob%></td>
-                    <td><%=ad.gender%></td>
-                    <td><%=ad.service%></td>
                     <td><%=ad.appointmentDate%></td>
                     <td><%=ad.appointmentTime%></td>
                     <td><%=ad.phone%></td>
                     <td><%=ad.email%></td>
                     <td><%=ad.message%></td>
-
+                    
+                    <% if(ad.status){%>
+                      <td>
+                        <a
+                          href="/admin/reception/deactive/<%=ad.id%>"
+                          class="btn btn-success"
+                          >Pending</a
+                        >
+                      </td>
+                      <%}else{%>
+                      <td>
+                        <a href="/admin/reception/active/<%=ad.id%>" class="btn btn-danger"
+                          >Visited</a
+                        >
+                      </td>
+                      <%}%>
+  
                     <td>
                       <a
                         href="/reception/deleteRecord/<%=ad.id%>"

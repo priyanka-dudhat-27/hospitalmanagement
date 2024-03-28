@@ -14,6 +14,20 @@
                 method="post"
                 class="form-horizontal"
               >
+
+              <div class="row form-group">
+                <div class="col col-md-3">
+                  <label for="select" class="form-control-label">Department</label>
+                </div>
+                <div class="col-12 col-md-9">
+                  <select name="departmentId" id="select" class="form-control">
+                    <option value="">--select-Department-</option>
+                    <%departmentData.map((v,i)=>{%>
+                    <option value="<%=v.id%>"><%=v.department_name%></option>
+                    <%})%>
+                  </select>
+                </div>
+              </div>
                 <div class="row form-group">
                   <div class="col col-md-3">
                     <label for="text-input" class="form-control-label"
@@ -46,79 +60,6 @@
                     />
                   </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col col-md-3">
-                      <label for="email-input" class="form-control-label"
-                        >Date of Birth</label
-                      >
-                    </div>
-                    <div class="col-12 col-md-9">
-                      <input
-                        type="date"
-                        name="dob"
-                        id="email-input"
-                        placeholder="Date of Birth"
-                        class="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div class="row form-group">
-                    <div class="col col-md-3">
-                      <label class="form-control-label">Gender</label>
-                    </div>
-                    <div class="col col-md-9">
-                      <div class="form-check">
-                        <div class="radio">
-                          <label for="radio1" class="form-check-label">
-                            <input
-                              type="radio"
-                              id="radio1"
-                              name="gender"
-                              value="male"
-                              class="form-check-input"
-                            />Male
-                          </label>
-                        </div>
-                        <div class="radio">
-                          <label for="radio2" class="form-check-label">
-                            <input
-                              type="radio"
-                              id="radio2"
-                              name="gender"
-                              value="female"
-                              class="form-check-input"
-                            />Female
-                          </label>
-                        </div>
-                        <div class="radio">
-                          <label for="radio3" class="form-check-label">
-                            <input
-                              type="radio"
-                              id="radio3"
-                              name="gender"
-                              value="others"
-                              class="form-check-input"
-                            />Others
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="row form-group">
-                    <div class="col col-md-3">
-                      <label for="select" class="form-control-label">Service</label>
-                    </div>
-                    <%var service=['Dental Checkup','Full Body Checkup','ENT Checkup','Eye Checkup','Heart Checkup']%>
-                    <div class="col-12 col-md-9">
-                      <select name="service" id="select" class="form-control">
-                        <option value="">--select-service-</option>
-                        <%service.map((v,i)=>{%>
-                        <option value="<%=v%>"><%=v%></option>
-                        <%})%>
-                      </select>
-                    </div>
-                  </div>
                   <div class="row form-group">
                     <div class="col col-md-3">
                       <label for="email-input" class="form-control-label"

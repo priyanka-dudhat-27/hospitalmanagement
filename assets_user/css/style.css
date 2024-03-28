@@ -970,7 +970,7 @@ a:focus {
 
 @media (max-width: 992px) {
   .testimonial-wrap {
-    margin-left: 0px;
+    margin-left: 0px !important;
   }
   .testimonial::before {
     display: none;
