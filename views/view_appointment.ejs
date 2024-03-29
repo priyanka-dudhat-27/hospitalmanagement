@@ -87,18 +87,19 @@
                     <% if(ad.status){%>
                       <td>
                         <a
-                          href="/admin/reception/deactive/<%=ad.id%>"
+                          href="/reception/deactive/<%=ad.id%>"
                           class="btn btn-success"
                           >Pending</a
                         >
                       </td>
                       <%}else{%>
                       <td>
-                        <a href="/admin/reception/active/<%=ad.id%>" class="btn btn-danger"
-                          >Visited</a
+                        <a href="/reception/active/<%=ad.id%>" class="btn btn-danger"
+                          >Attended</a
                         >
                       </td>
                       <%}%>
+  
   
                     <td>
                       <a

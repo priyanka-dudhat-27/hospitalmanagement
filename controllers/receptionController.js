@@ -7,7 +7,8 @@ const path = require("path");
 const fs = require("fs");
 const moment = require("moment");
 const nodemailer = require("nodemailer");
-const ROLES=require("../config/constants")
+const ROLES=require("../config/constants");
+const { errorMonitor } = require("events");
 
 module.exports.login = async (req, res) => {
   try {
@@ -151,7 +152,7 @@ module.exports.view_appointment = async (req, res) => {
         ],
       })
       .skip(page * per_page)
-      .limit(per_page).populate('departmentId','doctorId').exec()
+      .limit(per_page).populate('departmentId').exec()
 
     if (viewData) {
       return res.render("view_appointment", {
@@ -162,7 +163,7 @@ module.exports.view_appointment = async (req, res) => {
         per_page: per_page,
       });
     } else {
-      req.flash("error", "something wrong");
+      req.flash("error",error);
       return res.redirect("back");
     }
   } catch (err) {

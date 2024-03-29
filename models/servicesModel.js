@@ -6,7 +6,7 @@ const imgPath='/uploads/services'
 const serviceSchema=mongoose.Schema({
     image:{
         type:String,
-        required:false
+        required:true
     },
     title:{
         type:String,

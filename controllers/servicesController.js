@@ -84,28 +84,40 @@ module.exports.insert_servicesData = async (req, res) => {
   
   module.exports.deleteRecord = async (req, res) => {
     try {
-      let singleData = await servicesModel.findById(req.params.id);
-      if (singleData) {
+        // Retrieve the record from the database
+        let singleData = await servicesModel.findById(req.params.id);
+
+        // Check if the record exists
+        if (!singleData) {
+            console.log("Record not found");
+            req.flash("error", "Record not found");
+            return res.redirect("back");
+        }
+
+        // Construct the file path for the associated image
         let imagePath = path.join(__dirname, "..", singleData.image);
-        await fs.unlinkSync(imagePath);
-      } else {
-        console.log("wrong");
-        return res.redirect("back");
-      }
-      let delData = await servicesModel.findByIdAndDelete(req.params.id);
-      if (delData) {
-        req.flash("success", "record deleted successfully");
+
+        // Check if the image file exists before attempting to delete it
+        if (fs.existsSync(imagePath)) {
+            // Delete the image file from the file system
+            fs.unlinkSync(imagePath);
+        } else {
+            console.log("Image file not found");
+            req.flash("error", "Image file not found");
+        }
+
+        // Delete the record from the database
+        await servicesModel.findByIdAndDelete(req.params.id);
+
+        // Redirect with success message
+        req.flash("success", "Record deleted successfully");
         return res.redirect("/admin/services/view_services");
-      } else {
-        req.flash("error", "something wrong");
-        return res.redirect("back");
-      }
     } catch (err) {
-      console.log(err);
-      req.flash("error", "something wrong");
-      return res.redirect("back");
+        console.error("Error deleting record:", err);
+        req.flash("error", "Something went wrong while deleting the record");
+        return res.redirect("back");
     }
-  };
+};
   module.exports.updateRecord = async (req, res) => {
     try {
       let singleData = await servicesModel.findById(req.params.id);

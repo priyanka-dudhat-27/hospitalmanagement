@@ -2,6 +2,7 @@ const Admin = require("../models/adminModel");
 const doctorModel = require("../models/doctor_detailsModel");
 const appointmentModel = require("../models/appointmentModel");
 const receptionModel=require('../models/receptionModel');
+const commentModel=require('../models/commentModel');
 const path = require("path");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
@@ -40,6 +41,11 @@ module.exports.dashboard = async (req, res) => {
   let doctorData = await doctorModel.find().countDocuments();
   let receptionData = await receptionModel.find().countDocuments();
   let appointmentData = await appointmentModel.find().countDocuments();
+  let appointData = await appointmentModel.find();
+  let commentData=await commentModel.find();
+  if(req.user.status == 'true'){
+    let appointData = await appointmentModel.find();
+  }
 
   if (req.isAuthenticated() && req.user.role === 'admin') {
     return res.render("dashboard", {
@@ -47,6 +53,8 @@ module.exports.dashboard = async (req, res) => {
       doctorData: doctorData,
       receptionData: receptionData,
       appointmentData: appointmentData,
+      appointData:appointData,
+      commentData:commentData
     });
   }else{
     req.flash("error", "admin not exist");
