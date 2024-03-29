@@ -1,5 +1,5 @@
 const express = require('express');
-const routs = express();
+const routs = express.Router();
 const adminController = require('../controllers/adminController');
 const Admin = require('../models/adminModel');
 const passport = require('passport');
@@ -43,5 +43,9 @@ routs.use('/doctor_details', require('./doctor_details'));
 routs.use('/reception', require('./reception'));
 routs.use('/contacts', passport.checkAuth, require('./contacts'));
 routs.use('/department', passport.checkAuth, require('./department'));
+routs.use('/services',passport.checkAuth,require('./services'))
+routs.use('/posts',passport.checkAuth,require('./posts'))
+routs.use('/postcat',passport.checkAuth,require('./postcat'))
+routs.use('/comment',passport.checkAuth,require('./comment'))
 
 module.exports = routs;

@@ -2,6 +2,9 @@ const contactModel=require('../models/contactModel')
 const doctor_detailsModel=require('../models/doctor_detailsModel')
 const departmentModel=require('../models/departmentModel')
 const appointmentModel=require('../models/appointmentModel')
+const servicesModel=require('../models/servicesModel')
+const postsModel=require('../models/postsModel')
+const commentModel=require('../models/commentModel')
 const moment = require('moment')
 const nodemailer=require('nodemailer')
 
@@ -78,7 +81,10 @@ module.exports.add_appointment = async (req, res) => {
   };
 module.exports.about=async(req,res)=>{
     try {
-        return res.render('userpanel/about')
+        let postsData=await postsModel.find();
+        return res.render('userpanel/about',{
+            postsData:postsData,
+        })
     } catch (err) {
         console.log(err);
         req.flash('error','something wrong')
@@ -87,7 +93,10 @@ module.exports.about=async(req,res)=>{
 }
 module.exports.services=async(req,res)=>{
     try {
-        return res.render('userpanel/services')
+        let servicesData=await servicesModel.find();
+        return res.render('userpanel/services',{
+            servicesData:servicesData
+        })
     } catch (err) {
         console.log(err);
         req.flash('error','something wrong')
@@ -164,11 +173,66 @@ module.exports.add_contact=async(req,res)=>{
 
 // blog_single page
 module.exports.blog_single=async(req,res)=>{
-    try {
-        return res.render('userpanel/blog_single')
-    } catch (err) {
-        console.log(err);
-        req.flash('error','something wrong')
+    try{
+        console.log(req.params.id)
+         // comment logic start
+         let commentData=await commentModel.find({});
+        //  console.log(commentData)
+         // comment logic end
+        // next previous logic start
+        // let allIds=await postsModel.find({}).select('_id');
+        // let current;
+
+        // allIds.map((v,i)=>{
+        //     if(v._id==req.params.id){
+        //         current=i;
+        //     }
+        // })
+        // next-previous logic end
+       
+        let singleData=await postsModel.findById(req.params.id);
+        if(singleData){
+            return res.render('userpanel/blog_single', {
+                postsData: singleData,
+                // allIds: allIds,
+                // pos: current,
+                commentData: commentData,
+            });
+        } else {
+            req.flash('error', 'Post not found');
+            return res.redirect('back');
+        }
+    }
+    catch(err){
+        req.flash('error','something wrong!')
         return res.redirect('back')
     }
 }
+
+module.exports.add_comment=async(req,res)=>{
+    try{
+        console.log(req.file)
+        console.log(req.body)
+        let img='';
+        if(req.file){
+            img=commentModel.iPath+'/'+req.file.filename;
+        }
+        req.body.commentImage=img;
+        req.body.created_date=moment().format('LLL');
+        let addData=await commentModel.create(req.body);
+        if(addData){
+            req.flash('success','Comments Added !');
+            return res.redirect('back');
+        }
+        else{
+            req.flash('error','Error');
+            return res.redirect('back');
+        }
+    }
+    catch(err){
+        console.log(err);
+        return res.redirect('back');
+    }
+}
+
+
