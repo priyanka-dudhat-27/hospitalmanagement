@@ -1,4 +1,4 @@
-<%-include('header_doctor')%>
+<%-include('header')%>
              <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -22,7 +22,7 @@
                                 <a href="" class="btn btn-warning"> <%=parseInt(currentPage)+1%> </a>
                                 <%var next=parseInt(currentPage)+1;if(next!=totalpage){%>
                                 <a
-                                  href="/admin//doctor_details/view_doctor?page=<%=next%>&search=<%=search%>"
+                                  href="/admin/doctor_details/view_doctor?page=<%=next%>&search=<%=search%>"
                                   class="btn btn-info"
                                   >next</a
                                 >
@@ -34,7 +34,6 @@
                             <button type="submit"><i class="fa fa-trash text-info"></i></button>
                         <div class="row">
                                 <%for(let ad of doctor_detailsData){%>
-                            <a href="/admin/doctor_details/profile/<%=ad.id%>">
                                 <div class="col-md-4">
                                     <div class="card text-capitalize text-center">
                                         <img class="card-img-top" src="<%=ad.image%>" style="height: 350px;object-fit: cover;" alt="Card image cap">
@@ -43,6 +42,7 @@
                                             <h4 class="text-center text-secondary mb-3"><%=ad.departmentId.department_name%></h4>
                                             
                                             <h4 class="mb-3">
+                                                <a href="/admin/doctor_details/updateRecord/<%=ad.id%>"><i class="fa fa-edit text-info"></i></a>
                                                 <a href="/admin/doctor_details/deleteRecord/<%=ad.id%>"><i class="fa fa-trash text-danger"></i></a>
                                                 <input type="checkbox" value="<%=ad.id%>" name="doctorIds">
                                             </h4>
@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </a>
+                            
                            <%}%>
                             </form>
                         </div>

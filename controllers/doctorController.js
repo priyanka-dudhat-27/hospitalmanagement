@@ -1,4 +1,6 @@
 const doctor_detailsModel = require("../models/doctor_detailsModel");
+const appointmentModel=require('../models/appointmentModel')
+const departmentModel = require('../models/departmentModel')
 const passport = require("passport");
 const ROLES=require('../config/constants')
 
@@ -19,13 +21,20 @@ module.exports.login = async (req, res) => {
 module.exports.dashboardDoctor = async (req, res) => {
   try {
     let doctorData = await doctor_detailsModel.find();
+    let drData = await doctor_detailsModel.find().countDocuments();
+    let appopintmentData=await appointmentModel.find().countDocuments();
+    let departData = await departmentModel.find().countDocuments();
+    let appopintData=await appointmentModel.find();
     // console.log(doctorData);
 
     if (req.isAuthenticated() && req.user.role === 'doctor' ) {
       return res.render("dashboardDoctor", {
         doctorData: doctorData,
         doctorData: req.user,
-
+        appopintmentData:appopintmentData,
+        appopintData:appopintData,
+        drData:drData,
+        departData:departData
       });
     } else {
       return res.redirect("/main");

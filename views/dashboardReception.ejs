@@ -14,76 +14,45 @@
       <div class="row m-t-25">
         <div class="col-sm-6 col-lg-3">
           <div class="overview-item overview-item--c1">
-            <div class="overview__inner">
-              <div class="overview-box clearfix">
-                <div class="icon">
-                  <i class="zmdi zmdi-account-o"></i>
+            <a href="/admin/reception/view_appointment">
+              <div class="overview__inner">
+                <div class="overview-box clearfix">
+                  <div class="icon">
+                    <i class="zmdi zmdi-account-o"></i>
+                  </div>
+                  <div class="text">
+                    <h2><%=appointmentData%></h2>
+                    <span>Appointment</span>
+                  </div>
                 </div>
-                <div class="text">
-                  <h2><%=appointmentData%></h2>
-                  <span>Appointment</span>
+                <div class="overview-chart">
+                  <canvas id="widgetChart1"></canvas>
                 </div>
               </div>
-              <div class="overview-chart">
-                <canvas id="widgetChart1"></canvas>
-              </div>
-            </div>
+            </a>
           </div>
         </div>
         <div class="col-sm-6 col-lg-3">
           <div class="overview-item overview-item--c2">
-            <div class="overview__inner">
-              <div class="overview-box clearfix">
-                <div class="icon">
-                  <i class="zmdi zmdi-shopping-cart"></i>
+            <a href="/reception/contacts/view_contacts">
+              <div class="overview__inner">
+                <div class="overview-box clearfix">
+                  <div class="icon">
+                    <i class="zmdi zmdi-shopping-cart"></i>
+                  </div>
+                  <div class="text">
+                    <h2><%=contactData%></h2>
+                    <span>Contacts</span>
+                  </div>
                 </div>
-                <div class="text">
-                  <h2><%=contactData%></h2>
-                  <span>Contacts</span>
+                <div class="overview-chart">
+                  <canvas id="widgetChart2"></canvas>
                 </div>
               </div>
-              <div class="overview-chart">
-                <canvas id="widgetChart2"></canvas>
-              </div>
-            </div>
+            </a>
           </div>
         </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="overview-item overview-item--c3">
-            <div class="overview__inner">
-              <div class="overview-box clearfix">
-                <div class="icon">
-                  <i class="zmdi zmdi-calendar-note"></i>
-                </div>
-                <div class="text">
-                  <h2>1,086</h2>
-                  <span>this week</span>
-                </div>
-              </div>
-              <div class="overview-chart">
-                <canvas id="widgetChart3"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="overview-item overview-item--c4">
-            <div class="overview__inner">
-              <div class="overview-box clearfix">
-                <div class="icon">
-                  <i class="zmdi zmdi-money"></i>
-                </div>
-                <div class="text">
-                  <h2>$1,060,386</h2>
-                  <span>total earnings</span>
-                </div>
-              </div>
-              <div class="overview-chart">
-                <canvas id="widgetChart4"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
+       
       </div>
       <div class="row">
         <div class="col-lg-6">
@@ -121,7 +90,7 @@
         <div class="col-lg-6">
           <div class="au-card chart-percent-card">
             <div class="au-card-inner">
-              <h3 class="title-2 tm-b-5">char by %</h3>
+              <h3 class="title-2 tm-b-5">chart by %</h3>
               <div class="row no-gutters">
                 <div class="col-xl-6">
                   <div class="chart-note-wrap">
@@ -148,70 +117,31 @@
       <div class="row">
         <!-- <div class="col-lg-9"> -->
         <div class="col-lg-12">
-          <h2 class="title-1 m-b-25">NEW PATIENT LIST</h2>
+          <h2 class="title-1 m-b-25">Contact List</h2>
           <div class="table-responsive table--no-card m-b-40">
             <table class="table table-borderless table-striped table-earning">
               <thead>
                 <tr>
                   <th>date</th>
-                  <th>Patient ID</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Diseases</th>
-                  <th>Report</th>
+                  <th>name</th>
+                  <th>Phone</th>
+                  <th>email</th>
+                  <th>subject</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>2018-09-29</td>
-                  <td>100398</td>
-                  <td>Johan</td>
-                  <td>Rose</td>
-                  <td>FEVER</td>
-                  <td>
-                    <button>Report</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2018-09-29</td>
-                  <td>100398</td>
-                  <td>Johan</td>
-                  <td>Rose</td>
-                  <td>FEVER</td>
-                  <td>
-                    <button>Report</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2018-09-29</td>
-                  <td>100398</td>
-                  <td>Johan</td>
-                  <td>Rose</td>
-                  <td>FEVER</td>
-                  <td>
-                    <button>Report</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2018-09-29</td>
-                  <td>100398</td>
-                  <td>Johan</td>
-                  <td>Rose</td>
-                  <td>FEVER</td>
-                  <td>
-                    <button>Report</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2018-09-29</td>
-                  <td>100398</td>
-                  <td>Johan</td>
-                  <td>Rose</td>
-                  <td>FEVER</td>
-                  <td>
-                    <button>Report</button>
-                  </td>
-                </tr>
+                
+                <%for (let cd of conData){%>    
+                  <%if(cd.status){%>             
+                    <tr>
+                      <td><%=cd.created_date%></td>
+                      <td><%=cd.name%></td>
+                      <td><%=cd.phone%></td>
+                      <td><%=cd.email%></td>
+                      <td><%=cd.subject%></td>
+                    </tr>
+                  <%}%>
+                <%}%>
               </tbody>
             </table>
           </div>
@@ -267,56 +197,24 @@
           <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
             <div class="au-card-title" style="background-image: url('images/bg-title-01.jpg')">
               <div class="bg-overlay bg-overlay--blue"></div>
-              <h3><i class="zmdi zmdi-account-calendar"></i>26 April, 2018</h3>
+              <h3><i class="zmdi zmdi-account-calendar"></i>Latest Appointment</h3>
               <button class="au-btn-plus">
                 <i class="zmdi zmdi-plus"></i>
               </button>
             </div>
             <div class="au-task js-list-load">
-              <div class="au-task__title">
-                <p>Tasks for John Doe</p>
-              </div>
               <div class="au-task-list js-scrollbar3">
+               <%var no=1;for(let ad of appointData){%>
                 <div class="au-task__item au-task__item--danger">
                   <div class="au-task__item-inner">
                     <h5 class="task">
-                      <a href="#">Meeting about plan for Admin Template 2018</a>
+                      <a href="#"><%=ad.name%></a>
                     </h5>
-                    <span class="time">10:00 AM</span>
+                    <span class="time"><%=ad.email%></span>
+                    <p><%=ad.created_date%></p>
                   </div>
                 </div>
-                <div class="au-task__item au-task__item--warning">
-                  <div class="au-task__item-inner">
-                    <h5 class="task">
-                      <a href="#">Create new task for Dashboard</a>
-                    </h5>
-                    <span class="time">11:00 AM</span>
-                  </div>
-                </div>
-                <div class="au-task__item au-task__item--primary">
-                  <div class="au-task__item-inner">
-                    <h5 class="task">
-                      <a href="#">Meeting about plan for Admin Template 2018</a>
-                    </h5>
-                    <span class="time">02:00 PM</span>
-                  </div>
-                </div>
-                <div class="au-task__item au-task__item--success">
-                  <div class="au-task__item-inner">
-                    <h5 class="task">
-                      <a href="#">Create new task for Dashboard</a>
-                    </h5>
-                    <span class="time">03:30 PM</span>
-                  </div>
-                </div>
-                <div class="au-task__item au-task__item--danger js-load-item">
-                  <div class="au-task__item-inner">
-                    <h5 class="task">
-                      <a href="#">Meeting about plan for Admin Template 2018</a>
-                    </h5>
-                    <span class="time">10:00 AM</span>
-                  </div>
-                </div>
+               <%}%>
                 <div class="au-task__item au-task__item--warning js-load-item">
                   <div class="au-task__item-inner">
                     <h5 class="task">
@@ -345,10 +243,7 @@
               <div class="au-message js-list-load">
                 <div class="au-message__noti">
                   <p>
-                    You Have
-                    <span>2</span>
-
-                    new messages
+                    You Have new messages
                   </p>
                 </div>
                 <div class="au-message-list">

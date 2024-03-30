@@ -19,7 +19,7 @@ routs.post('/del_multiple_appointments',receptionController.del_multiple_appoint
 routs.get('/add_reception',passport.checkAuth,receptionController.add_reception)
 routs.post('/insert_reception_details',passport.checkAuth,receptionModel.uploadImage,receptionController.insert_reception_details);
 routs.get('/view_reception',passport.checkAuth,receptionController.view_reception);
-routs.get('/deleteRecord/:id',passport.checkAuth,receptionController.deleteRecord)
+routs.get('/deleteappointment/:id',passport.checkAuth,receptionController.deleteappointment)
 routs.get('/updateData/:id',passport.checkAuth,receptionController.updateData)
 routs.post('/edit_reception/:id',passport.checkAuth,receptionModel.uploadImage,receptionController.edit_reception);
 routs.get('/deactive/:id',passport.checkAuth,receptionController.deactive)
@@ -35,6 +35,6 @@ routs.post('/verifyOtp', receptionController.verifyOtp);
 routs.get('/receptionChangePassword', receptionController.receptionChangePassword);
 routs.post('/resetPass', receptionController.resetPass);
 
-routs.use('/contacts',require('./contacts'))
+routs.use('/contacts',passport.checkAuth,require('./contacts'))
 
 module.exports = routs;

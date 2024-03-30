@@ -62,12 +62,12 @@
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Message</th>
-                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <%var no=currentPage*per_page+1%> <%for(let ad of appointmentData){%>
+                  <%var no=currentPage*per_page+1%> <%for(let ad of
+                  appointmentData){%>
                   <tr>
                     <td>
                       <input
@@ -83,33 +83,16 @@
                     <td><%=ad.phone%></td>
                     <td><%=ad.email%></td>
                     <td><%=ad.message%></td>
-                    
-                    <% if(ad.status){%>
-                      <td>
-                        <a
-                          href="/reception/deactive/<%=ad.id%>"
-                          class="btn btn-success"
-                          >Pending</a
-                        >
-                      </td>
-                      <%}else{%>
-                      <td>
-                        <a href="/reception/active/<%=ad.id%>" class="btn btn-danger"
-                          >Attended</a
-                        >
-                      </td>
-                      <%}%>
-  
-  
+
                     <td>
                       <a
-                        href="/reception/deleteRecord/<%=ad.id%>"
+                        href="/admin/reception/deleteappointment/<%=ad.id%>"
                         style="color: red"
                         ><i class="fa fa-trash"></i
                       ></a>
                       ||
                       <a
-                        href="/reception/updateRecord/<%=ad.id%>"
+                        href="/admin/reception/updateRecord/<%=ad.id%>"
                         style="color: blue"
                         ><i class="fa fa-edit"></i
                       ></a>

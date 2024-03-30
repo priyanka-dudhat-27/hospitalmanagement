@@ -3,6 +3,7 @@ const receptionModel = require("../models/receptionModel");
 const contactModel = require("../models/contactModel");
 const doctor_detailsModel=require('../models/doctor_detailsModel')
 const departmentModel=require('../models/departmentModel')
+const commentModel=require('../models/commentModel')
 const path = require("path");
 const fs = require("fs");
 const moment = require("moment");
@@ -29,12 +30,17 @@ module.exports.dashboardDoctor = async (req, res) => {
     let appointmentData = await appointmentModel.find().countDocuments();
     let receptionData = await receptionModel.find().countDocuments();
     let contactData = await contactModel.find().countDocuments();
+    let appointData = await appointmentModel.find();
+    let conData = await contactModel.find();
+
 
     if (req.isAuthenticated() && req.user.role =='receptionist') {
       return res.render("dashboardReception", {
         appointmentData: appointmentData,
         receptionData: receptionData,
-        contactData:contactData
+        contactData:contactData,
+        appointData:appointData,
+        conData:conData
       });
     }else{
       return res.redirect("/main");
@@ -173,7 +179,7 @@ module.exports.view_appointment = async (req, res) => {
   }
 };
 
-module.exports.deleteRecord = async (req, res) => {
+module.exports.deleteappointment = async (req, res) => {
   try {
     let delData = await appointmentModel.findByIdAndDelete(req.params.id);
     if (delData) {
@@ -382,10 +388,18 @@ module.exports.deactive = async (req, res) => {
       req.params.id,
       { status: false }
     );
+    let appointmentDeactive = await appointmentModel.findByIdAndUpdate(
+      req.params.id,
+      { status: false }
+    );
     if (receptionDeactive) {
       req.flash("success", "Reception deactivated successfully");
       return res.redirect("back");
-    } else {
+    } else if(appointmentDeactive){
+      req.flash("success", "Appointment deactivated successfully");
+      return res.redirect("back");
+    }
+    else{
       req.flash("error", "something wrong");
       return res.redirect("back");
     }
@@ -410,7 +424,7 @@ module.exports.active = async (req, res) => {
       req.flash("success", "Reception activated successfully");
       return res.redirect("back");
     }else if(appointmentActive){
-      req.flash("success", "Reception activated successfully");
+      req.flash("success", "Appointment activated successfully");
       return res.redirect("back");
     } else {
       req.flash("error", "something wrong");
@@ -644,14 +658,3 @@ module.exports.resetPass = async (req, res) => {
     return res.redirect("back");
   }
 };
-
-// appointment booked by user website
-module.exports.confirmAppointment=async(req,res)=>{
-  try {
-    
-  } catch (err) {
-    console.log(err);
-    req.flash("error", "something wrong");
-    return res.redirect("back");
-  }
-}
