@@ -39,11 +39,12 @@
             <%postsData.map((v,i)=>{%>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                   <div class="team-block mb-5 mb-lg-0">
+                    <a href="/blog_single/<%=v.id%>">
                       <img src="<%=v.postsimage%>" alt="" class="img-fluid w-100"  style="height: 250px;">
-        
-                      <div class="content">
+                    </a>
+                      <div class="content" style="height: 200px;">
                           <h4 class="mt-4 mb-0"><a href="#"><%=v.title.slice(0,45)%></a></h4>
-                          <p><%=v.description.slice(0,110)%>...</p>
+                          <p><%=v.description.slice(0,120)%>...</p>
                       </div>
                       <div class="read-more">
                         <a href="/blog_single/<%=v.id%>" class="btn btn-primary">Read more</a>

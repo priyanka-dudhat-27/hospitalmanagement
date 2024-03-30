@@ -1,4 +1,6 @@
 const commentModel = require('../models/commentModel');
+const path=require('path')
+const fs = require('fs')
 
 module.exports.view_comments = async (req, res) => {
     try {
@@ -7,7 +9,7 @@ module.exports.view_comments = async (req, res) => {
             search = req.query.search;
         }
         let page = 0;
-        let per_page = 2;
+        let per_page = 5;
         if (req.query.page) {
             page = req.query.page;
         }
@@ -45,6 +47,31 @@ module.exports.view_comments = async (req, res) => {
         return res.redirect('back');
     }
 }
+
+module.exports.deleteRecord = async (req, res) => {
+  try {
+    let singleData = await commentModel.findById(req.params.id);
+    if (singleData) {
+      let imagePath = path.join(__dirname, "..", singleData.commentImage);
+      await fs.unlinkSync(imagePath);
+    } else {
+      console.log("wrong");
+      return res.redirect("back");
+    }
+    let delData = await commentModel.findByIdAndDelete(req.params.id);
+    if (delData) {
+      req.flash("success", "record deleted successfully");
+      return res.redirect("back");
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
 
 // status active-deactive
 module.exports.deactive = async (req, res) => {
@@ -102,3 +129,20 @@ module.exports.deactive = async (req, res) => {
     }
   };
   
+  // delete multiple records
+module.exports.deleteMultiple = async (req, res) => {
+  try {
+    let d = await commentModel.deleteMany({ _id: { $in: req.body.commentIds } });
+    if (d) {
+      req.flash("success", "Multiple records deleted successfully");
+      return res.redirect("back");
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
